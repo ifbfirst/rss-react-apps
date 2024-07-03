@@ -4,10 +4,12 @@ import Button from './Button';
 
 class Search extends Component {
   render(): ReactNode {
-    return <div className='search'>
+    return (
+      <div className="search">
         <Input />
         <Button />
-    </div>;
+      </div>
+    );
   }
 }
 

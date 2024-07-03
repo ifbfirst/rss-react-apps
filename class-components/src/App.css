@@ -28,7 +28,7 @@ body {
 
 .main {
   background-color: var(--main-light);
-  height: 100vh;
+  min-height: 100vh;
   padding: 20px;
 }
 
@@ -58,9 +58,78 @@ body {
   flex-wrap: wrap;
   justify-content: center;
 }
-
+.person:hover {
+  transform: scale(1.03);
+  transition: all 1s;
+  background-color: var(--main-light-hover);
+}
 .person {
   width: 30%;
+  min-width: 300px;
   border: 1px solid var(--main-dark);
   padding: 20px;
+  cursor: pointer;
+}
+.person i {
+  color: var(--text-light);
+  background-color: var(--main-dark);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.preloader {
+  margin: 0 auto;
+  width: 8vmax;
+  height: 8vmax;
+  border-right: 4px solid #ffffff;
+  border-radius: 100%;
+  animation: spinRight 800ms linear infinite;
+}
+
+.preloader:before,
+.preloader:after {
+  content: '';
+  width: 6vmax;
+  height: 6vmax;
+  display: block;
+  position: absolute;
+  top: calc(50% - 3vmax);
+  left: calc(50% - 3vmax);
+  border-left: 3px solid #ffffff;
+  border-radius: 100%;
+  animation: spinLeft 800ms linear infinite;
+}
+
+.preloader:after {
+  width: 4vmax;
+  height: 4vmax;
+  top: calc(50% - 2vmax);
+  left: calc(50% - 2vmax);
+  border: 0;
+  border-right: 2px solid #ffffff;
+  animation: none;
+}
+
+@keyframes spinLeft {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes spinRight {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
 }
