@@ -5,3 +5,8 @@ export interface Person {
   eye_color: string;
   gender: string;
 }
+
+export interface State {
+  people: Person[];
+  searchText: string | '';
+}
