@@ -8,6 +8,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 interface State {
   searchText: string;
   shouldFetch: boolean;
+  hasError: boolean;
 }
 
 class App extends Component<object, State> {
@@ -16,6 +17,7 @@ class App extends Component<object, State> {
     this.state = {
       searchText: getItemFromLocalStorage('searchText') || '',
       shouldFetch: false,
+      hasError: false,
     };
   }
 
@@ -30,28 +32,34 @@ class App extends Component<object, State> {
   handleSearchComplete = () => {
     this.setState({ shouldFetch: false });
   };
-
+  raiseError = () => {
+    this.setState({ hasError: true });
+    throw new Error('Искусственная ошибка от ErrorButton');
+  };
   render(): ReactNode {
     return (
       <div className="app">
         <header className="header">
           <h1>PeopleSearch</h1>
-
+          <button className="error__button" onClick={this.raiseError}>
+            error
+          </button>
           <Search
             onChange={this.handleChange}
             onSearch={this.handleSearch}
             searchText={this.state.searchText}
           />
         </header>
-        <ErrorBoundary>
-          <main className="main">
+
+        <main className="main">
+          <ErrorBoundary hasError={this.state.hasError}>
             <PeopleList
               shouldFetch={this.state.shouldFetch}
               searchText={this.state.searchText}
               onSearchComplete={this.handleSearchComplete}
             />
-          </main>
-        </ErrorBoundary>
+          </ErrorBoundary>
+        </main>
       </div>
     );
   }

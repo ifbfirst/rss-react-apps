@@ -34,6 +34,7 @@ class PeopleList extends Component<PeopleProps, PeopleListState> {
   }
 
   dataHandler = async () => {
+    this.setState({ isLoading: true });
     const { searchText, onSearchComplete } = this.props;
 
     const url = searchText
@@ -57,9 +58,7 @@ class PeopleList extends Component<PeopleProps, PeopleListState> {
     }
     if (!people?.length) {
       return (
-        <div className="people-list">
-          Результат поиска отсутсвует. Попробуйте еще...
-        </div>
+        <div className="people-list">There is no result... Try again.</div>
       );
     }
     return (

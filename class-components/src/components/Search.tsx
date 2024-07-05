@@ -29,16 +29,9 @@ class Search extends Component<SearchProps, SearchState> {
         <button className="search__button" type="submit">
           search
         </button>
-        <button className="error__button" onClick={this.raiseError}>
-          error
-        </button>
       </form>
     );
   }
-
-  raiseError = () => {
-    throw new Error('Искусственная ошибка от ErrorButton');
-  };
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     this.props.onChange(event);
