@@ -40,7 +40,7 @@ class App extends Component<object, State> {
     return (
       <div className="app">
         <header className="header">
-          <h1>PeopleSearch</h1>
+          <h1>Star Wars People Finders</h1>
           <button className="error__button" onClick={this.raiseError}>
             error
           </button>
