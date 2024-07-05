@@ -5,5 +5,3 @@ export interface Person {
   eye_color: string;
   gender: string;
 }
-
-

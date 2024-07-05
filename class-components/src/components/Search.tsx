@@ -1,17 +1,22 @@
 import { Component, ReactNode } from 'react';
-import { getItemFromLocalStorage, setItemToLocalStorage } from '../utils';
+import { setItemToLocalStorage } from '../utils';
 
 interface SearchState {
   searchText: string | '';
 }
-
-class Search extends Component<object, SearchState> {
-  constructor(props: object) {
+interface SearchProps {
+  searchText: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch: () => void;
+}
+class Search extends Component<SearchProps, SearchState> {
+  constructor(props: SearchProps) {
     super(props);
-    this.state = { searchText: getItemFromLocalStorage('searchText') };
+
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
+
   render(): ReactNode {
     return (
       <form className="search" onSubmit={this.handleClick}>
@@ -19,22 +24,31 @@ class Search extends Component<object, SearchState> {
           type="search"
           className="search__input"
           onChange={this.handleChange}
-          value={this.state.searchText}
+          value={this.props.searchText}
         />
         <button className="search__button" type="submit">
           search
         </button>
+        <button className="error__button" onClick={this.raiseError}>
+          error
+        </button>
       </form>
     );
   }
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchText: event.target.value });
+
+  raiseError = () => {
+    throw new Error('Искусственная ошибка от ErrorButton');
   };
 
-  handleClick = (e: React.FormEvent<HTMLFormElement>) => {
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    this.props.onChange(event);
+  }
+
+  handleClick(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setItemToLocalStorage('searchText', this.state.searchText.trim());
-  };
+    setItemToLocalStorage('searchText', this.props.searchText.trim());
+    this.props.onSearch();
+  }
 }
 
 export default Search;

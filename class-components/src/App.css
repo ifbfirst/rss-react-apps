@@ -39,7 +39,8 @@ body {
   font-family: 'Courier New', Courier, monospace;
 }
 
-.search__button {
+.search__button,
+.error__button {
   cursor: pointer;
   background-color: var(--main-light);
   border: none;
@@ -49,7 +50,8 @@ body {
   font-family: 'Courier New', Courier, monospace;
 }
 
-.search__button:hover {
+.search__button:hover,
+.error__button:hover {
   background-color: var(--main-light-hover);
 }
 .people-list {

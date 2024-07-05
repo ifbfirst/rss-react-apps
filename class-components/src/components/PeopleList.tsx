@@ -1,28 +1,41 @@
 import { Component } from 'react';
 import { Person } from '../interfaces';
-import { getItemFromLocalStorage } from '../utils';
 
 interface PeopleListState {
   people: Person[];
   isLoading: boolean;
-  searchText: string | '';
 }
 
-class PeopleList extends Component<object, PeopleListState> {
-  constructor(props: object) {
+interface PeopleProps {
+  searchText: string;
+  shouldFetch: boolean;
+  onSearchComplete: () => void;
+}
+
+class PeopleList extends Component<PeopleProps, PeopleListState> {
+  constructor(props: PeopleProps) {
     super(props);
     this.state = {
       people: [],
       isLoading: true,
-      searchText: getItemFromLocalStorage('searchText'),
     };
   }
   componentDidMount() {
     this.dataHandler();
   }
 
+  componentDidUpdate(prevProps: PeopleProps) {
+    if (
+      prevProps.shouldFetch !== this.props.shouldFetch &&
+      this.props.shouldFetch
+    ) {
+      this.dataHandler();
+    }
+  }
+
   dataHandler = async () => {
-    const searchText = this.state.searchText;
+    const { searchText, onSearchComplete } = this.props;
+
     const url = searchText
       ? `https://swapi.dev/api/people/?search=${encodeURIComponent(searchText)}`
       : 'https://swapi.dev/api/people/';
@@ -30,10 +43,10 @@ class PeopleList extends Component<object, PeopleListState> {
       const response = await fetch(url);
       const res = await response.json();
       const people: Person[] = res.results;
-      this.setState({ people, isLoading: false });
-      //setItemToLocalStorage('people', people);
+      this.setState({ people, isLoading: false }, onSearchComplete);
     } catch (err) {
       console.log(err);
+      this.setState({ isLoading: false }, onSearchComplete);
     }
   };
 

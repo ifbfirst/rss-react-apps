@@ -3,25 +3,55 @@ import PeopleList from './components/PeopleList';
 import { Component, ReactNode } from 'react';
 import { getItemFromLocalStorage } from './utils';
 import Search from './components/Search';
+import ErrorBoundary from './components/ErrorBoundary';
 
-class App extends Component {
+interface State {
+  searchText: string;
+  shouldFetch: boolean;
+}
+
+class App extends Component<object, State> {
   constructor(props: object) {
     super(props);
     this.state = {
-      searchText: getItemFromLocalStorage('searchText'),
+      searchText: getItemFromLocalStorage('searchText') || '',
+      shouldFetch: false,
     };
   }
+
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ searchText: event.target.value });
+  };
+
+  handleSearch = () => {
+    this.setState({ shouldFetch: true });
+  };
+
+  handleSearchComplete = () => {
+    this.setState({ shouldFetch: false });
+  };
 
   render(): ReactNode {
     return (
       <div className="app">
         <header className="header">
           <h1>PeopleSearch</h1>
-          <Search />
+
+          <Search
+            onChange={this.handleChange}
+            onSearch={this.handleSearch}
+            searchText={this.state.searchText}
+          />
         </header>
-        <main className="main">
-          <PeopleList />
-        </main>
+        <ErrorBoundary>
+          <main className="main">
+            <PeopleList
+              shouldFetch={this.state.shouldFetch}
+              searchText={this.state.searchText}
+              onSearchComplete={this.handleSearchComplete}
+            />
+          </main>
+        </ErrorBoundary>
       </div>
     );
   }
