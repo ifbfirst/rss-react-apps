@@ -6,7 +6,4 @@ export interface Person {
   gender: string;
 }
 
-export interface State {
-  people: Person[];
-  searchText: string | '';
-}
+

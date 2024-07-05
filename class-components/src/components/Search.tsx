@@ -1,15 +1,16 @@
 import { Component, ReactNode } from 'react';
-import { appStore } from '../AppStore';
+import { getItemFromLocalStorage, setItemToLocalStorage } from '../utils';
 
 interface SearchState {
   searchText: string | '';
 }
+
 class Search extends Component<object, SearchState> {
   constructor(props: object) {
     super(props);
-    this.state = { searchText: appStore.state.searchText || '' };
-    this.handleClick = this.handleClick.bind(this);
+    this.state = { searchText: getItemFromLocalStorage('searchText') };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   render(): ReactNode {
     return (
@@ -18,7 +19,7 @@ class Search extends Component<object, SearchState> {
           type="search"
           className="search__input"
           onChange={this.handleChange}
-          value={`${this.state.searchText}`}
+          value={this.state.searchText}
         />
         <button className="search__button" type="submit">
           search
@@ -26,14 +27,14 @@ class Search extends Component<object, SearchState> {
       </form>
     );
   }
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ searchText: event.target.value.trim() });
-  }
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ searchText: event.target.value });
+  };
 
-  handleClick(e: React.FormEvent<HTMLFormElement>) {
+  handleClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    appStore.setState({ searchText: this.state.searchText });
-  }
+    setItemToLocalStorage('searchText', this.state.searchText.trim());
+  };
 }
 
 export default Search;

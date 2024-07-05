@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Person } from '../interfaces';
-import { appStore } from '../AppStore';
+import { getItemFromLocalStorage } from '../utils';
 
 interface PeopleListState {
   people: Person[];
@@ -12,28 +12,17 @@ class PeopleList extends Component<object, PeopleListState> {
   constructor(props: object) {
     super(props);
     this.state = {
-      people: appStore.state.people || [],
+      people: [],
       isLoading: true,
-      searchText: appStore.state.searchText || '',
+      searchText: getItemFromLocalStorage('searchText'),
     };
-    this.renderPeople = this.renderPeople.bind(this);
   }
   componentDidMount() {
-    this.renderPeople();
+    this.dataHandler();
   }
 
-  componentDidUpdate(prevState: PeopleListState) {
-    // alert(appStore.state.searchText);
-    // alert(prevState.searchText);
-    if (
-      this.state.searchText !== prevState.searchText &&
-      appStore.state.searchText !== prevState.searchText
-    ) {
-      this.renderPeople();
-    }
-  }
-  renderPeople = async () => {
-    const searchText = appStore.state.searchText || '';
+  dataHandler = async () => {
+    const searchText = this.state.searchText;
     const url = searchText
       ? `https://swapi.dev/api/people/?search=${encodeURIComponent(searchText)}`
       : 'https://swapi.dev/api/people/';
@@ -42,7 +31,7 @@ class PeopleList extends Component<object, PeopleListState> {
       const res = await response.json();
       const people: Person[] = res.results;
       this.setState({ people, isLoading: false });
-      appStore.setState({ people });
+      //setItemToLocalStorage('people', people);
     } catch (err) {
       console.log(err);
     }
@@ -55,13 +44,13 @@ class PeopleList extends Component<object, PeopleListState> {
     }
     if (!people?.length) {
       return (
-        <div className="person-list">
+        <div className="people-list">
           Результат поиска отсутсвует. Попробуйте еще...
         </div>
       );
     }
     return (
-      <div className="person-list">
+      <div className="people-list">
         {people?.map((person: Person, index: number) => (
           <div key={index} className="person">
             <i className="fa-solid fa-user"></i>
