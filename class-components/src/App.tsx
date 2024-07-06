@@ -1,7 +1,7 @@
 import './App.css';
 import PeopleList from './components/PeopleList';
 import { Component, ReactNode } from 'react';
-import { getItemFromLocalStorage } from './utils';
+import { getItemFromLocalStorage, setItemToLocalStorage } from './utils';
 import Search from './components/Search';
 import ErrorBoundary from './components/ErrorBoundary';
 import { Person } from './interfaces';
@@ -29,7 +29,9 @@ class App extends Component<object, State> {
     this.setState({ searchText: event.target.value });
   };
 
-  handleSearch = () => {
+  handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setItemToLocalStorage('searchText', this.state.searchText.trim());
     this.fetchData();
   };
 
