@@ -12,7 +12,6 @@ interface SearchProps {
 class Search extends Component<SearchProps, SearchState> {
   constructor(props: SearchProps) {
     super(props);
-
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -33,11 +32,11 @@ class Search extends Component<SearchProps, SearchState> {
     );
   }
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
     this.props.onChange(event);
   }
 
-  handleClick(e: React.FormEvent<HTMLFormElement>) {
+  handleClick(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
     setItemToLocalStorage('searchText', this.props.searchText.trim());
     this.props.onSearch();

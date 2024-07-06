@@ -1,69 +1,24 @@
 import { Component } from 'react';
 import { Person } from '../interfaces';
 
-interface PeopleListState {
+interface PeopleListProps {
   people: Person[];
-  isLoading: boolean;
 }
 
-interface PeopleProps {
-  searchText: string;
-  shouldFetch: boolean;
-  onSearchComplete: () => void;
-}
-
-class PeopleList extends Component<PeopleProps, PeopleListState> {
-  constructor(props: PeopleProps) {
+class PeopleList extends Component<PeopleListProps> {
+  constructor(props: PeopleListProps) {
     super(props);
-    this.state = {
-      people: [],
-      isLoading: true,
-    };
   }
-  componentDidMount() {
-    this.dataHandler();
-  }
-
-  componentDidUpdate(prevProps: PeopleProps) {
-    if (
-      prevProps.shouldFetch !== this.props.shouldFetch &&
-      this.props.shouldFetch
-    ) {
-      this.dataHandler();
-    }
-  }
-
-  dataHandler = async () => {
-    this.setState({ isLoading: true });
-    const { searchText, onSearchComplete } = this.props;
-
-    const url = searchText
-      ? `https://swapi.dev/api/people/?search=${encodeURIComponent(searchText)}`
-      : 'https://swapi.dev/api/people/';
-    try {
-      const response = await fetch(url);
-      const res = await response.json();
-      const people: Person[] = res.results;
-      this.setState({ people, isLoading: false }, onSearchComplete);
-    } catch (err) {
-      console.log(err);
-      this.setState({ isLoading: false }, onSearchComplete);
-    }
-  };
 
   render() {
-    const { people, isLoading } = this.state;
-    if (isLoading) {
-      return <div className="preloader"></div>;
-    }
-    if (!people?.length) {
+    if (!this.props.people?.length) {
       return (
         <div className="people-list">There is no result... Try again.</div>
       );
     }
     return (
       <div className="people-list">
-        {people?.map((person: Person, index: number) => (
+        {this.props.people?.map((person: Person, index: number) => (
           <div key={index} className="person">
             <i className="fa-solid fa-user"></i>
             <div className="person__name">Name: {person.name}</div>

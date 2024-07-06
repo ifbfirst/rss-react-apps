@@ -4,11 +4,14 @@ import { Component, ReactNode } from 'react';
 import { getItemFromLocalStorage } from './utils';
 import Search from './components/Search';
 import ErrorBoundary from './components/ErrorBoundary';
+import { Person } from './interfaces';
+import PreLoader from './components/PreLoader';
 
 interface State {
   searchText: string;
-  shouldFetch: boolean;
   hasError: boolean;
+  people: Person[];
+  isLoading: boolean;
 }
 
 class App extends Component<object, State> {
@@ -16,8 +19,9 @@ class App extends Component<object, State> {
     super(props);
     this.state = {
       searchText: getItemFromLocalStorage('searchText') || '',
-      shouldFetch: false,
       hasError: false,
+      people: [],
+      isLoading: true,
     };
   }
 
@@ -26,16 +30,34 @@ class App extends Component<object, State> {
   };
 
   handleSearch = () => {
-    this.setState({ shouldFetch: true });
+    this.fetchData();
   };
 
-  handleSearchComplete = () => {
-    this.setState({ shouldFetch: false });
-  };
   raiseError = () => {
     this.setState({ hasError: true });
     throw new Error('Искусственная ошибка от ErrorButton');
   };
+
+  componentDidMount(): void {
+    this.fetchData();
+  }
+
+  fetchData = async () => {
+    this.setState({ isLoading: true });
+    const url = this.state.searchText
+      ? `https://swapi.dev/api/people/?search=${encodeURIComponent(this.state.searchText)}`
+      : 'https://swapi.dev/api/people/';
+    try {
+      const response = await fetch(url);
+      const res = await response.json();
+      const people: Person[] = res.results;
+      this.setState({ people, isLoading: false });
+    } catch (err) {
+      console.log(err);
+      this.setState({ isLoading: false });
+    }
+  };
+
   render(): ReactNode {
     return (
       <div className="app">
@@ -50,14 +72,13 @@ class App extends Component<object, State> {
             searchText={this.state.searchText}
           />
         </header>
-
         <main className="main">
           <ErrorBoundary hasError={this.state.hasError}>
-            <PeopleList
-              shouldFetch={this.state.shouldFetch}
-              searchText={this.state.searchText}
-              onSearchComplete={this.handleSearchComplete}
-            />
+            {this.state.isLoading ? (
+              <PreLoader />
+            ) : (
+              <PeopleList people={this.state.people} />
+            )}
           </ErrorBoundary>
         </main>
       </div>
