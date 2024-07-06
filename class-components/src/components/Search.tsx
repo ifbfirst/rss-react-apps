@@ -13,12 +13,12 @@ class Search extends Component<SearchProps, SearchState> {
   constructor(props: SearchProps) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   render(): ReactNode {
     return (
-      <form className="search" onSubmit={this.handleClick}>
+      <form className="search" onSubmit={this.handleSearch}>
         <input
           type="search"
           className="search__input"
@@ -36,7 +36,7 @@ class Search extends Component<SearchProps, SearchState> {
     this.props.onChange(event);
   }
 
-  handleClick(e: React.FormEvent<HTMLFormElement>): void {
+  handleSearch(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
     setItemToLocalStorage('searchText', this.props.searchText.trim());
     this.props.onSearch();
