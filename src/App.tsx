@@ -4,15 +4,8 @@ import { Component, ReactNode } from 'react';
 import { getItemFromLocalStorage, setItemToLocalStorage } from './utils';
 import Search from './components/Search';
 import ErrorBoundary from './components/ErrorBoundary';
-import { Person } from './interfaces';
+import { Person, State } from './interfaces';
 import PreLoader from './components/PreLoader';
-
-interface State {
-  searchText: string;
-  hasError: boolean;
-  people: Person[];
-  isLoading: boolean;
-}
 
 class App extends Component<object, State> {
   constructor(props: object) {

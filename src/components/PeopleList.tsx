@@ -1,9 +1,5 @@
 import { Component } from 'react';
-import { Person } from '../interfaces';
-
-interface PeopleListProps {
-  people: Person[];
-}
+import { PeopleListProps, Person } from '../interfaces';
 
 class PeopleList extends Component<PeopleListProps> {
   constructor(props: PeopleListProps) {

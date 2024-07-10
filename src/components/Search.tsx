@@ -1,13 +1,6 @@
 import { Component, ReactNode } from 'react';
+import { SearchProps, SearchState } from '../interfaces';
 
-interface SearchState {
-  searchText: string | '';
-}
-interface SearchProps {
-  searchText: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSearch: (e: React.FormEvent<HTMLFormElement>) => void;
-}
 class Search extends Component<SearchProps, SearchState> {
   constructor(props: SearchProps) {
     super(props);
