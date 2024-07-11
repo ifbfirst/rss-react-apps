@@ -7,6 +7,7 @@ import { Person } from './interfaces';
 import PreLoader from './components/PreLoader';
 import { useEffect, useState } from 'react';
 import Pagination from './components/Navigation';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 const ROWS_PER_PAGE = 10;
 
@@ -71,37 +72,59 @@ function App() {
       setPage(page - 1);
     }
   }
+
   return (
-    <div className="app">
-      <header className="header">
-        <h1>Star Wars People Finders</h1>
-        <button className="error__button" onClick={raiseError}>
-          error
-        </button>
-        <Search
-          onChange={handleChange}
-          onSearch={handleSearch}
-          searchText={displayText}
-        />
-      </header>
-      <main className="main">
-        <ErrorBoundary hasError={hasError}>
-          {isLoading ? <PreLoader /> : <PeopleList people={people} />}
-          {pageCount !== 1 && pageCount !== 0 ? (
-            <Pagination
-              onNextPageClick={handleNextPageClick}
-              onPrevPageClick={handlePrevPageClick}
-              disable={{
-                left: page === 1,
-                right: page === pageCount,
-              }}
-              nav={{ current: page, total: pageCount }}
-            />
-          ) : (
-            ''
-          )}
-        </ErrorBoundary>
-      </main>
+    <Router>
+      <div className="app">
+        <header className="header">
+          <h1>Star Wars People Finders</h1>
+          <button className="error__button" onClick={raiseError}>
+            error
+          </button>
+          <Search
+            onChange={handleChange}
+            onSearch={handleSearch}
+            searchText={displayText}
+          />
+        </header>
+        <main className="main">
+          <ErrorBoundary hasError={hasError}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    {isLoading ? <PreLoader /> : <PeopleList people={people} />}
+                    {pageCount !== 1 && pageCount !== 0 ? (
+                      <Pagination
+                        onNextPageClick={handleNextPageClick}
+                        onPrevPageClick={handlePrevPageClick}
+                        disable={{
+                          left: page === 1,
+                          right: page === pageCount,
+                        }}
+                        nav={{ current: page, total: pageCount }}
+                      />
+                    ) : (
+                      ''
+                    )}
+                  </>
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ErrorBoundary>
+        </main>
+      </div>
+    </Router>
+  );
+}
+
+function NotFound() {
+  return (
+    <div>
+      <h2>404 - Page Not Found</h2>
+      <Link to="/">Go back to Home</Link>
     </div>
   );
 }
