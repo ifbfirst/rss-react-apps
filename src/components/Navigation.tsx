@@ -24,7 +24,7 @@ function Pagination(props: PaginationProps) {
   return (
     <div className="paginator">
       <button
-        className="arrow"
+        className={disable.left ? 'arrow disabled' : 'arrow'}
         type="button"
         onClick={handlePrevPageClick}
         disabled={disable.left}
@@ -37,7 +37,7 @@ function Pagination(props: PaginationProps) {
         </span>
       )}
       <button
-        className="arrow"
+        className={disable.right ? 'arrow disabled' : 'arrow'}
         type="button"
         onClick={handleNextPageClick}
         disabled={disable.right}

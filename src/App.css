@@ -142,22 +142,22 @@ body {
   }
 }
 
-/* .arrow {
-  font-size: 1em;
-  padding: 5px;
-  margin: 5px;
-  cursor: pointer;
-  background-color: var(--main-dark);
-  color: var(--text-light);
-  border: none;
-}
-
-.arrow:hover {
-  background-color: var(--main-light);
-} */
-
 .arrow {
   font-size: 1em;
   padding: 5px;
   margin: 5px;
+  cursor: pointer;
+  color: var(--text-light);
+  background-color: var(--main-light);
+  border: none;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.arrow:hover {
+  color: var(--main-dark);
+}
+
+.disabled {
+  pointer-events: none;
+  color: var(--text-dark);
 }
