@@ -141,3 +141,23 @@ body {
     transform: rotate(0deg);
   }
 }
+
+/* .arrow {
+  font-size: 1em;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: var(--main-dark);
+  color: var(--text-light);
+  border: none;
+}
+
+.arrow:hover {
+  background-color: var(--main-light);
+} */
+
+.arrow {
+  font-size: 1em;
+  padding: 5px;
+  margin: 5px;
+}

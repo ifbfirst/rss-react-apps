@@ -1,84 +1,109 @@
 import './App.css';
 import PeopleList from './components/PeopleList';
-import { Component, ReactNode } from 'react';
 import { getItemFromLocalStorage, setItemToLocalStorage } from './utils';
 import Search from './components/Search';
 import ErrorBoundary from './components/ErrorBoundary';
-import { Person, State } from './interfaces';
+import { Person } from './interfaces';
 import PreLoader from './components/PreLoader';
+import { useEffect, useState } from 'react';
+import Pagination from './components/Navigation';
 
-class App extends Component<object, State> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      searchText: getItemFromLocalStorage('searchText') || '',
-      hasError: false,
-      people: [],
-      isLoading: true,
-    };
+const ROWS_PER_PAGE = 10;
+
+function App() {
+  const [displayText, setDisplayText] = useState(
+    getItemFromLocalStorage('searchText') || ''
+  );
+  const [searchText, setSearchText] = useState(displayText);
+  const [hasError, setHasError] = useState(false);
+  const [people, setPeople] = useState<Person[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [resultCount, setResultCount] = useState(0);
+  const pageCount = Math.ceil(resultCount / ROWS_PER_PAGE);
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setDisplayText(event.target.value);
   }
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchText: event.target.value });
-  };
-
-  handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setItemToLocalStorage('searchText', this.state.searchText.trim());
-    this.fetchData();
-  };
+    setItemToLocalStorage('searchText', displayText);
+    setSearchText(displayText);
+    setPage(1);
+  }
 
-  raiseError = () => {
-    this.setState({ hasError: true });
+  function raiseError() {
+    setHasError(true);
     throw new Error('Искусственная ошибка от ErrorButton');
-  };
-
-  componentDidMount(): void {
-    this.fetchData();
   }
 
-  fetchData = async () => {
-    this.setState({ isLoading: true });
-    const url = this.state.searchText
-      ? `https://swapi.dev/api/people/?search=${encodeURIComponent(this.state.searchText)}`
-      : 'https://swapi.dev/api/people/';
-    try {
-      const response = await fetch(url);
-      const res = await response.json();
-      const people: Person[] = res.results;
-      this.setState({ people, isLoading: false });
-    } catch (err) {
-      console.log(err);
-      this.setState({ isLoading: false });
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      const url = searchText
+        ? `https://swapi.dev/api/people/?search=${encodeURIComponent(searchText)}`
+        : `https://swapi.dev/api/people/?page=${page}`;
+      try {
+        const response = await fetch(url);
+        const res = await response.json();
+        const people: Person[] = res.results;
+        setPeople(people);
+        setResultCount(res.count);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  };
 
-  render(): ReactNode {
-    return (
-      <div className="app">
-        <header className="header">
-          <h1>Star Wars People Finders</h1>
-          <button className="error__button" onClick={this.raiseError}>
-            error
-          </button>
-          <Search
-            onChange={this.handleChange}
-            onSearch={this.handleSearch}
-            searchText={this.state.searchText}
-          />
-        </header>
-        <main className="main">
-          <ErrorBoundary hasError={this.state.hasError}>
-            {this.state.isLoading ? (
-              <PreLoader />
-            ) : (
-              <PeopleList people={this.state.people} />
-            )}
-          </ErrorBoundary>
-        </main>
-      </div>
-    );
+    fetchData();
+  }, [page, searchText]);
+
+  function handleNextPageClick() {
+    if (page < pageCount) {
+      setPage(page + 1);
+    }
   }
+
+  function handlePrevPageClick() {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  }
+  return (
+    <div className="app">
+      <header className="header">
+        <h1>Star Wars People Finders</h1>
+        <button className="error__button" onClick={raiseError}>
+          error
+        </button>
+        <Search
+          onChange={handleChange}
+          onSearch={handleSearch}
+          searchText={displayText}
+        />
+      </header>
+      <main className="main">
+        <ErrorBoundary hasError={hasError}>
+          {isLoading ? <PreLoader /> : <PeopleList people={people} />}
+          {pageCount !== 1 && pageCount !== 0 ? (
+            <Pagination
+              onNextPageClick={handleNextPageClick}
+              onPrevPageClick={handlePrevPageClick}
+              disable={{
+                left: page === 1,
+                right: page === pageCount,
+              }}
+              nav={{ current: page, total: pageCount }}
+            />
+          ) : (
+            ''
+          )}
+        </ErrorBoundary>
+      </main>
+    </div>
+  );
 }
 
 export default App;
