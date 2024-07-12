@@ -10,6 +10,7 @@ import ErrorBoundary from '../components/ErrorBoundary';
 import Pagination from '../components/Pagination';
 import PeopleList from '../components/PeopleList';
 import Search from '../components/Search';
+import { useSearchQuery } from '../utils';
 
 const ROWS_PER_PAGE = 10;
 
@@ -22,7 +23,7 @@ export default function Root() {
   const [displayText, setDisplayText] = useState<string>(
     initialSearchText as string
   );
-  const [searchText, setSearchText] = useState<string>(
+  const [searchText, setSearchText] = useSearchQuery(
     initialSearchText as string
   );
   const [people, setPeople] = useState<Person[]>([]);
