@@ -5,7 +5,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { Person } from './interfaces';
 import PreLoader from './components/PreLoader';
 import { useEffect, useState } from 'react';
-import Pagination from './components/Navigation';
+import Pagination from './components/Pagination';
 import queryString from 'query-string';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -108,7 +108,7 @@ function App() {
         <ErrorBoundary hasError={hasError}>
           <>
             {isLoading ? <PreLoader /> : <PeopleList people={people} />}
-            {pageCount !== 1 && pageCount !== 0 && (
+            {!isLoading && pageCount > 1 && (
               <Pagination
                 onNextPageClick={handleNextPageClick}
                 onPrevPageClick={handlePrevPageClick}
