@@ -22,7 +22,7 @@ function Pagination(props: PaginationProps) {
   };
 
   return (
-    <div className="paginator">
+    <div className="pagination">
       <button
         className={disable.left ? 'arrow disabled' : 'arrow'}
         type="button"
@@ -32,7 +32,7 @@ function Pagination(props: PaginationProps) {
         {'<'}
       </button>
       {nav && (
-        <span className="navigation">
+        <span className="">
           {nav.current} / {nav.total}
         </span>
       )}

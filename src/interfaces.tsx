@@ -15,14 +15,6 @@ export interface State {
   isLoading: boolean;
 }
 
-export interface ErrorBoundaryProps {
-  children: ReactNode;
-  hasError: boolean;
-}
-
-export interface ErrorBoundaryState {
-  hasError: boolean;
-}
 
 export interface PeopleListProps {
   people: Person[];

@@ -12,7 +12,7 @@
 }
 
 body {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.5em;
@@ -27,6 +27,9 @@ body {
   flex-direction: column;
   align-items: center;
 }
+.header h1 {
+  text-align: center;
+}
 
 .search {
   display: flex;
@@ -34,7 +37,8 @@ body {
 }
 
 .search__input {
-  width: 200px;
+  width: 350px;
+
   font-size: 1em;
   font-family: 'Courier New', Courier, monospace;
 }
@@ -55,6 +59,8 @@ body {
   background-color: var(--main-light-hover);
 }
 .people-list {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
   gap: 30px;
@@ -65,19 +71,31 @@ body {
   background-color: var(--main-light);
   min-height: 100vh;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
-.person:hover {
+.people-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+.people-list a:hover {
   transform: scale(1.03);
   transition: all 1s;
   background-color: var(--main-light-hover);
 }
-.person {
-  width: 35%;
-  min-width: 300px;
+.people-list a {
+  width: 15%;
+  min-width: 250px;
   border: 1px solid var(--main-dark);
   padding: 20px;
   cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: var(--text-dark);
 }
+
 .person i {
   color: var(--text-light);
   background-color: var(--main-dark);
@@ -160,4 +178,26 @@ body {
 .disabled {
   pointer-events: none;
   color: var(--text-dark);
+}
+
+#error-page {
+  background-color: var(--main-light);
+  color: var(--text-light);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 570px) {
+  .search {
+    flex-direction: column;
+    align-items: center;
+  }
+  .people-list {
+    flex-direction: column;
+  }
+  .person {
+    width: 100%;
+  }
 }
