@@ -10,7 +10,9 @@ import ErrorBoundary from '../components/ErrorBoundary';
 import Pagination from '../components/Pagination';
 import PeopleList from '../components/PeopleList';
 import Search from '../components/Search';
+
 import { useSearchQuery } from '../utils';
+import { apiRoot } from '../Constants';
 
 const ROWS_PER_PAGE = 10;
 
@@ -27,6 +29,7 @@ export default function Root() {
   const [searchText, setSearchText] = useSearchQuery(
     initialSearchText as string
   );
+
   const [people, setPeople] = useState<Person[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(
@@ -54,7 +57,7 @@ export default function Root() {
     navigate('/');
     setIsLoading(true);
     const url = searchText
-      ? `https://swapi.dev/api/people/?search=${encodeURIComponent(searchText)}`
+      ? `${apiRoot}?search=${encodeURIComponent(searchText)}`
       : `https://swapi.dev/api/people/?page=${page}`;
     updateURLParams({ searchText: displayText });
     try {

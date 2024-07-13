@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Person } from '../interfaces';
 import PreLoader from '../components/PreLoader';
+import { apiRoot } from '../Constants';
 
 export default function PersonDetails() {
   const { detailsId } = useParams<{ detailsId: string }>();
@@ -13,9 +14,7 @@ export default function PersonDetails() {
     const fetchPersonDetails = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(
-          `https://swapi.dev/api/people/?search=${detailsId}`
-        );
+        const response = await fetch(`${apiRoot}?search=${detailsId}`);
         const person = await response.json();
         setPerson(person.results[0]);
       } catch (error) {
