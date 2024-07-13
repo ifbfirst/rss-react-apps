@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 export interface Person {
   name: string;
   mass: string;
@@ -8,13 +6,23 @@ export interface Person {
   gender: string;
 }
 
+export interface Person {
+  name: string;
+  mass: string;
+  height: string;
+  eye_color: string;
+  hair_color: string;
+  skin_color: string;
+  gender: string;
+  birth_year: string;
+}
+
 export interface State {
   searchText: string;
   hasError: boolean;
   people: Person[];
   isLoading: boolean;
 }
-
 
 export interface PeopleListProps {
   people: Person[];

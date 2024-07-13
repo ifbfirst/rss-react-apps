@@ -23,6 +23,7 @@ export default function Root() {
   const [displayText, setDisplayText] = useState<string>(
     initialSearchText as string
   );
+
   const [searchText, setSearchText] = useSearchQuery(
     initialSearchText as string
   );
@@ -40,9 +41,8 @@ export default function Root() {
 
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    updateURLParams({ searchText: displayText, page: 1 });
+    updateURLParams({ searchText: displayText });
     setSearchText(displayText);
-    setPage(1);
   }
 
   function updateURLParams(params: { searchText?: string; page?: number }) {
@@ -51,10 +51,12 @@ export default function Root() {
   }
 
   const fetchData = useCallback(async () => {
+    navigate('/');
     setIsLoading(true);
     const url = searchText
       ? `https://swapi.dev/api/people/?search=${encodeURIComponent(searchText)}`
       : `https://swapi.dev/api/people/?page=${page}`;
+    updateURLParams({ searchText: displayText });
     try {
       const response = await fetch(url);
       const res = await response.json();
@@ -66,7 +68,7 @@ export default function Root() {
     } finally {
       setIsLoading(false);
     }
-  }, [page, searchText]);
+  }, [page, searchText, navigate]);
 
   useEffect(() => {
     fetchData();
@@ -104,7 +106,7 @@ export default function Root() {
             <>
               <div className="people-wrapper">
                 {isLoading ? <PreLoader /> : <PeopleList people={people} />}{' '}
-                <div id="person-detail">
+                <div className="person-detail">
                   <Outlet />
                 </div>
               </div>

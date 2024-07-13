@@ -16,6 +16,8 @@ body {
   margin: 0 auto;
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.5em;
+  background-color: var(--main-light);
+  scroll-behavior: smooth;
 }
 
 .header {
@@ -59,7 +61,6 @@ body {
   background-color: var(--main-light-hover);
 }
 .people-list {
-  max-width: 1600px;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
@@ -68,6 +69,8 @@ body {
   justify-content: center;
 }
 .main {
+  max-width: 1600px;
+  margin: 0 auto;
   background-color: var(--main-light);
   min-height: 100vh;
   padding: 20px;
@@ -108,12 +111,37 @@ body {
   align-items: center;
   margin-bottom: 10px;
 }
-
+.person-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: self-start;
+}
+.person-detail-info {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  background-color: var(--text-light);
+  padding: 20px;
+}
+.person-detail-info ul {
+  list-style: none;
+}
+.person-detail-info span {
+  cursor: pointer;
+  align-self: flex-end;
+  color: var(--main-dark);
+}
+.person-detail-info h2 {
+  border-bottom: 1px solid var(--main-dark);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  color: var(--main-dark);
+}
 .preloader {
   margin: 50px auto;
   width: 8vmax;
   height: 8vmax;
-  border-right: 4px solid #ffffff;
+  border-right: 4px solid var(--text-light);
   border-radius: 100%;
   animation: spinRight 800ms linear infinite;
 }
@@ -127,7 +155,7 @@ body {
   position: absolute;
   top: calc(50% - 3vmax);
   left: calc(50% - 3vmax);
-  border-left: 3px solid #ffffff;
+  border-left: 3px solid var(--text-light);
   border-radius: 100%;
   animation: spinLeft 800ms linear infinite;
 }
@@ -138,7 +166,7 @@ body {
   top: calc(50% - 2vmax);
   left: calc(50% - 2vmax);
   border: 0;
-  border-right: 2px solid #ffffff;
+  border-right: 2px solid var(--text-light);
   animation: none;
 }
 
@@ -180,7 +208,7 @@ body {
   color: var(--text-dark);
 }
 
-#error-page {
+.error-page {
   background-color: var(--main-light);
   color: var(--text-light);
   height: 100vh;

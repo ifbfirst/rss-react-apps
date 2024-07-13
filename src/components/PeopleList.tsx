@@ -14,7 +14,6 @@ function PeopleList(props: PeopleListProps) {
             <div className="person__name">Name: {person.name}</div>
             <div className="person__height">Height: {person.height}</div>
             <div className="person__mass">Mass: {person.mass}</div>
-            <div className="person__height">Eye color: {person.eye_color}</div>
             <div className="person__mass">Gender: {person.gender}</div>
           </div>
         </Link>
