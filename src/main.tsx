@@ -1,19 +1,19 @@
 import ReactDOM from 'react-dom/client';
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ErrorPage from './routes/ErrorPage';
-import Root from './routes/Root';
-import PersonDetails from './routes/PersonDetails';
+import ErrorPage from './pages/ErrorPage';
+import DetailsPage from './pages/DetailsPage';
+import MainPage from './pages/MainPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <MainPage />,
     errorElement: <ErrorPage />,
     children: [
       {
         path: 'details/:detailsId',
-        element: <PersonDetails />,
+        element: <DetailsPage />,
       },
     ],
   },

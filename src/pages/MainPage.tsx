@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Person } from '../interfaces';
-import PreLoader from '../components/PreLoader';
 import ErrorBoundary from '../components/ErrorBoundary';
 import Pagination from '../components/Pagination';
 import PeopleList from '../components/PeopleList';
@@ -16,7 +15,7 @@ import { apiRoot } from '../Constants';
 
 const ROWS_PER_PAGE = 10;
 
-export default function Root() {
+export default function MainPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { searchText: initialSearchText = '', page: initialPage = 1 } =
@@ -108,7 +107,11 @@ export default function Root() {
           <ErrorBoundary>
             <>
               <div className="people-wrapper">
-                {isLoading ? <PreLoader /> : <PeopleList people={people} />}{' '}
+                {isLoading ? (
+                  <div className="preloader"></div>
+                ) : (
+                  <PeopleList people={people} />
+                )}{' '}
                 <div className="person-detail">
                   <Outlet />
                 </div>

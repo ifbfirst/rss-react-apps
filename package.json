@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "format:fix": "prettier --write .",
-    "prepare": "cd .. && husky class-components/.husky",
+    "prepare": "husky",
     "test": "vitest",
     "coverage": "vitest --coverage"
   },

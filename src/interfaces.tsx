@@ -1,10 +1,4 @@
-export interface Person {
-  name: string;
-  mass: string;
-  height: string;
-  eye_color: string;
-  gender: string;
-}
+import { ReactNode } from "react";
 
 export interface Person {
   name: string;
@@ -35,4 +29,12 @@ export interface SearchProps {
   searchText: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+
+export interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+export interface ErrorBoundaryState {
+  hasError: boolean;
 }

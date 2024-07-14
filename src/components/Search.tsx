@@ -5,6 +5,7 @@ function Search(props: SearchProps) {
     <form className="search" onSubmit={props.onSearch}>
       <input
         type="search"
+        placeholder=""
         className="search__input"
         onChange={props.onChange}
         value={props.searchText}

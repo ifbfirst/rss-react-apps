@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Person } from '../interfaces';
-import PreLoader from '../components/PreLoader';
 import { apiRoot } from '../Constants';
 
-export default function PersonDetails() {
+export default function DetailsPage() {
   const { detailsId } = useParams<{ detailsId: string }>();
   const [person, setPerson] = useState<Person | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -30,7 +29,7 @@ export default function PersonDetails() {
   }, [detailsId]);
 
   if (isLoading) {
-    return <PreLoader />;
+    return <div className="preloader"></div>;
   }
 
   if (!person) {
