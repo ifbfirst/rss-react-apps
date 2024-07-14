@@ -115,6 +115,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: self-start;
+  margin: 0 7px;
 }
 .person-detail-info {
   display: flex;
@@ -217,6 +218,12 @@ body {
   align-items: center;
 }
 
+@media (max-width: 1024px) {
+  .people-list a {
+    width: 15%;
+    min-width: 200px;
+  }
+}
 @media (max-width: 570px) {
   .search {
     flex-direction: column;
@@ -224,8 +231,18 @@ body {
   }
   .people-list {
     flex-direction: column;
+    align-items: center;
+    order: 1;
   }
-  .person {
-    width: 100%;
+  .people-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .people-list a {
+    width: 90%;
+  }
+  .person-detail {
+    order: 0;
   }
 }

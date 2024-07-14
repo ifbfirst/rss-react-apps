@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Person } from '../interfaces';
 import { apiRoot } from '../Constants';
@@ -7,6 +7,7 @@ export default function DetailsPage() {
   const { detailsId } = useParams<{ detailsId: string }>();
   const [person, setPerson] = useState<Person | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const detailsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +29,25 @@ export default function DetailsPage() {
     }
   }, [detailsId]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (
+        detailsRef.current &&
+        !detailsRef.current.contains(event.target as Node) &&
+        !target.closest('a') &&
+        target.closest('main')
+      ) {
+        navigate('/');
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [navigate]);
+
   if (isLoading) {
     return <div className="preloader"></div>;
   }
@@ -41,7 +61,7 @@ export default function DetailsPage() {
   };
 
   return (
-    <div className="person-detail-info">
+    <div className="person-detail-info" ref={detailsRef}>
       <span onClick={handleClose}>
         <i className="fa-solid fa-xmark"></i>
       </span>

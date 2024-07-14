@@ -47,13 +47,10 @@ export default function MainPage() {
     setSearchText(displayText);
   }
 
-  const updateURLParams = useCallback(
-    (params: { searchText?: string; page?: number }) => {
-      const newParams = { ...queryString.parse(location.search), ...params };
-      navigate({ search: queryString.stringify(newParams) });
-    },
-    [location.search, navigate]
-  );
+  function updateURLParams(params: { searchText?: string; page?: number }) {
+    const newParams = { ...queryString.parse(location.search), ...params };
+    navigate({ search: queryString.stringify(newParams) });
+  }
 
   const fetchData = useCallback(async () => {
     navigate('/');
@@ -61,7 +58,7 @@ export default function MainPage() {
     const url = searchText
       ? `${apiRoot}?search=${encodeURIComponent(searchText)}`
       : `https://swapi.dev/api/people/?page=${page}`;
-    updateURLParams({ searchText: displayText });
+    updateURLParams({ searchText, page });
     try {
       const response = await fetch(url);
       const res = await response.json();
@@ -73,7 +70,7 @@ export default function MainPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [displayText, navigate, page, searchText, updateURLParams]);
+  }, [navigate, page, searchText]);
 
   useEffect(() => {
     fetchData();

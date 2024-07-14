@@ -9,7 +9,7 @@ function PeopleList(props: PeopleListProps) {
     <div className="people-list">
       {props.people?.map((person: Person) => (
         <Link to={`details/${person.name}`}>
-          <div key={person.name} className="person" data-testid="person-card">
+          <div key={person.name} className="person" data-testid="person-card ">
             <i className="fa-solid fa-user"></i>
             <div className="person__name">Name: {person.name}</div>
             <div className="person__height">Height: {person.height}</div>
