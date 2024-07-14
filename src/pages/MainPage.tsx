@@ -47,10 +47,13 @@ export default function MainPage() {
     setSearchText(displayText);
   }
 
-  function updateURLParams(params: { searchText?: string; page?: number }) {
-    const newParams = { ...queryString.parse(location.search), ...params };
-    navigate({ search: queryString.stringify(newParams) });
-  }
+  const updateURLParams = useCallback(
+    (params: { searchText?: string; page?: number }) => {
+      const newParams = { ...queryString.parse(location.search), ...params };
+      navigate({ search: queryString.stringify(newParams) });
+    },
+    [location.search, navigate]
+  );
 
   const fetchData = useCallback(async () => {
     navigate('/');
@@ -70,7 +73,7 @@ export default function MainPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [page, searchText, navigate]);
+  }, [displayText, navigate, page, searchText, updateURLParams]);
 
   useEffect(() => {
     fetchData();
