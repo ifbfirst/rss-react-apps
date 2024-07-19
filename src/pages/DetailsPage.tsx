@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Person } from '../interfaces';
-import { apiRoot } from '../Constants';
+import { BASE_URL } from '../constants';
 
 export default function DetailsPage() {
   const { detailsId } = useParams<{ detailsId: string }>();
@@ -14,7 +14,7 @@ export default function DetailsPage() {
     const fetchPersonDetails = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${apiRoot}?search=${detailsId}`);
+        const response = await fetch(`${BASE_URL}?search=${detailsId}`);
         const person = await response.json();
         setPerson(person.results[0]);
       } catch (error) {

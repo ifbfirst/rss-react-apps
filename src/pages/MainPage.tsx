@@ -10,32 +10,30 @@ import Pagination from '../components/Pagination';
 import PeopleList from '../components/PeopleList';
 import Search from '../components/Search';
 
-import { useSearchQuery } from '../utils';
-import { apiRoot } from '../Constants';
+import { getItemFromLocalStorage, setItemToLocalStorage } from '../utils';
+import { BASE_URL, PAGINATION_PAGE } from '../constants';
+import { useDispatch, useSelector } from 'react-redux';
 
-const ROWS_PER_PAGE = 10;
+import {
+  setIsLoading,
+  setPage,
+  setPeople,
+  setResultCount,
+  setSearchText,
+} from '../stores/peopleSlice';
+import { RootState } from '../stores/reducers';
 
 export default function MainPage() {
+  const dispatch = useDispatch();
+  const { searchText, page, isLoading, resultCount, people } = useSelector(
+    (state: RootState) => state.people
+  );
   const location = useLocation();
   const navigate = useNavigate();
-  const { searchText: initialSearchText = '', page: initialPage = 1 } =
-    queryString.parse(location.search);
-
   const [displayText, setDisplayText] = useState<string>(
-    initialSearchText as string
+    getItemFromLocalStorage('searchText' || '')
   );
-
-  const [searchText, setSearchText] = useSearchQuery(
-    initialSearchText as string
-  );
-
-  const [people, setPeople] = useState<Person[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [page, setPage] = useState<number>(
-    parseInt(initialPage as string) || 1
-  );
-  const [resultCount, setResultCount] = useState<number>(0);
-  const pageCount = Math.ceil(resultCount / ROWS_PER_PAGE);
+  const pageCount = Math.ceil(resultCount / PAGINATION_PAGE);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setDisplayText(event.target.value);
@@ -43,8 +41,9 @@ export default function MainPage() {
 
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    dispatch(setSearchText(displayText));
     updateURLParams({ searchText: displayText });
-    setSearchText(displayText);
+    setItemToLocalStorage('searchText', displayText);
   }
 
   function updateURLParams(params: { searchText?: string; page?: number }) {
@@ -54,33 +53,33 @@ export default function MainPage() {
 
   const fetchData = useCallback(async () => {
     navigate('/');
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     const url = searchText
-      ? `${apiRoot}?search=${encodeURIComponent(searchText)}`
-      : `https://swapi.dev/api/people/?page=${page}`;
+      ? `${BASE_URL}?search=${encodeURIComponent(searchText)}`
+      : `${BASE_URL}?page=${page}`;
     updateURLParams({ searchText, page });
     try {
       const response = await fetch(url);
       const res = await response.json();
       const people: Person[] = res.results;
-      setPeople(people);
-      setResultCount(res.count);
+      dispatch(setPeople(people));
+      dispatch(setResultCount(res.count));
     } catch (err) {
       console.log(err);
     } finally {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     }
-  }, [navigate, page, searchText]);
+  }, [searchText, page, dispatch, navigate]);
 
   useEffect(() => {
     fetchData();
-  }, [page, searchText, fetchData]);
+  }, [fetchData]);
 
   function handleNextPageClick() {
     if (page < pageCount) {
       const newPage = page + 1;
       updateURLParams({ page: newPage });
-      setPage(newPage);
+      dispatch(setPage(newPage));
     }
   }
 
@@ -88,7 +87,7 @@ export default function MainPage() {
     if (page > 1) {
       const newPage = page - 1;
       updateURLParams({ page: newPage });
-      setPage(newPage);
+      dispatch(setPage(newPage));
     }
   }
 
