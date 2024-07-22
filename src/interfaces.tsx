@@ -29,3 +29,7 @@ export interface ErrorBoundaryProps {
 export interface ErrorBoundaryState {
   hasError: boolean;
 }
+
+export interface ThemeProviderProps {
+  children: ReactNode;
+}

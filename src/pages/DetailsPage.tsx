@@ -1,8 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchPersonQuery } from '../services/peopleApi';
+import { ThemeContext } from '../components/theme/ThemeContext';
 
 export default function DetailsPage() {
+  const lightTheme = useContext(ThemeContext);
+  const themeStyles = {
+    backgroundColor: lightTheme ? '#fff' : '#000',
+    color: lightTheme ? '#000' : '#fff',
+  };
   const { detailsId } = useParams<{ detailsId: string }>();
   const detailsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -40,7 +46,7 @@ export default function DetailsPage() {
   };
 
   return (
-    <div className="person-detail-info" ref={detailsRef}>
+    <div className="person-detail-info" ref={detailsRef} style={themeStyles}>
       <span onClick={handleClose}>
         <i className="fa-solid fa-xmark"></i>
       </span>

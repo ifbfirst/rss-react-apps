@@ -9,6 +9,8 @@ import { PAGINATION_PAGE } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../stores/peopleSlice';
 import { RootState, useFetchPeopleQuery } from '../stores/reducers';
+import { ThemeContext, themes } from '../components/theme/ThemeContext';
+import ThemeProvider from '../components/theme/ThemeProvider';
 
 export default function MainPage() {
   const dispatch = useDispatch();
@@ -16,7 +18,6 @@ export default function MainPage() {
   const { data, isFetching } = useFetchPeopleQuery({ searchText, page });
   const location = useLocation();
   const navigate = useNavigate();
-
   const pageCount = data?.count ? Math.ceil(data?.count / PAGINATION_PAGE) : 0;
 
   function updateURLParams(params: { searchText?: string; page?: number }) {
@@ -41,9 +42,24 @@ export default function MainPage() {
   }
 
   return (
-    <>
+    <ThemeProvider>
       <div className="app">
         <header className="header">
+          <p className="theme_selector">
+            Change theme{' '}
+            <ThemeContext.Consumer>
+              {({ theme, setTheme }) => (
+                <i
+                  className="fa-solid fa-sun light"
+                  onClick={() => {
+                    if (theme === themes.light) setTheme(themes.dark);
+                    if (theme === themes.dark) setTheme(themes.light);
+                  }}
+                />
+              )}
+            </ThemeContext.Consumer>
+          </p>
+
           <h1>Star Wars People Finders</h1>
           <Search />
         </header>
@@ -75,6 +91,6 @@ export default function MainPage() {
           </ErrorBoundary>
         </main>
       </div>
-    </>
+    </ThemeProvider>
   );
 }
