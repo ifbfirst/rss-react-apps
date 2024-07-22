@@ -18,7 +18,7 @@ const initialState: PeopleState = {
   resultCount: 0,
 };
 
-const peopleSlice = createSlice({
+export const peopleSlice = createSlice({
   name: 'people',
   initialState,
   reducers: {
