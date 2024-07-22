@@ -1,5 +1,12 @@
 import { ReactNode } from 'react';
 
+export interface PeopleResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Person[];
+}
+
 export interface Person {
   name: string;
   mass: string;
@@ -11,24 +18,8 @@ export interface Person {
   birth_year: string;
 }
 
-export interface State {
-  searchText: string;
-  hasError: boolean;
-  people: Person[];
-  isLoading: boolean;
-}
-
 export interface PeopleListProps {
-  people: Person[];
-}
-
-export interface SearchState {
-  searchText: string | '';
-}
-export interface SearchProps {
-  searchText: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSearch: (e: React.FormEvent<HTMLFormElement>) => void;
+  people: Person[] | undefined;
 }
 
 export interface ErrorBoundaryProps {

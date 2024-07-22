@@ -4,7 +4,7 @@ import { getItemFromLocalStorage } from '../utils';
 
 export interface PeopleState {
   people: Person[];
-  isLoading: boolean;
+  isFetching: boolean;
   searchText: string;
   page: number;
   resultCount: number;
@@ -12,7 +12,7 @@ export interface PeopleState {
 
 const initialState: PeopleState = {
   people: [],
-  isLoading: true,
+  isFetching: true,
   searchText: getItemFromLocalStorage('searchText'),
   page: 1,
   resultCount: 0,
@@ -25,8 +25,8 @@ const peopleSlice = createSlice({
     setPeople(state, action: PayloadAction<Person[]>) {
       state.people = action.payload;
     },
-    setIsLoading(state, action: PayloadAction<boolean>) {
-      state.isLoading = action.payload;
+    setIsFetching(state, action: PayloadAction<boolean>) {
+      state.isFetching = action.payload;
     },
     setSearchText(state, action: PayloadAction<string>) {
       state.searchText = action.payload;
@@ -43,7 +43,7 @@ const peopleSlice = createSlice({
 
 export const {
   setPeople,
-  setIsLoading,
+  setIsFetching,
   setSearchText,
   setPage,
   setResultCount,

@@ -9,6 +9,9 @@
     }
   ],
   "compilerOptions": {
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true
   }
 }
