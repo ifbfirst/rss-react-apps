@@ -6,15 +6,19 @@
 }
 
 :root[data-theme='dark'] {
-  --main-dark: #080829;
-  --main-light: #121044;
+  --main-dark: #0b0b28;
+  --main-light: #101041;
   --text-light: #ffffff;
+  --white: #ffffff;
+  --grey: #363636;
 }
 
 :root[data-theme='light'] {
-  --main-dark: #75c7f6;
-  --main-light: #bdddf8;
+  --main-dark: #a0dbfd;
+  --main-light: #cee5f7;
   --text-light: #363636;
+  --white: #ffffff;
+  --grey: #363636;
 }
 
 body {
@@ -49,12 +53,22 @@ body {
   width: 350px;
   font-size: 1em;
 }
+.checkbox__input {
+  margin-right: 10px;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+}
+.person label {
+  margin-top: 30px;
+  font-size: 0.7em;
+  cursor: pointer;
+}
 
-.search__button,
-.error__button {
+.search__button {
   cursor: pointer;
   background-color: var(--main-light);
-  border: none;
+  border: 1px solid var(--text-light);
   height: 40px;
   width: 100px;
   font-size: 1em;
@@ -63,7 +77,8 @@ body {
 
 .search__button:hover,
 .error__button:hover {
-  filter: brightness(97%);
+  border: 2px solid var(--text-light);
+  transition: 0.5s;
 }
 .people-list {
   margin: 0 auto;
@@ -95,17 +110,22 @@ body {
 .people-list a {
   width: 15%;
   min-width: 250px;
-  border: 1px solid var(--main-dark);
+  border: 1px solid var(--text-light);
+  background-color: var(--main-dark);
   padding: 20px;
   cursor: pointer;
   display: block;
   text-decoration: none;
   color: var(--text-light);
 }
+.person {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 .person i {
   color: var(--text-light);
-  background-color: var(--main-dark);
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -120,12 +140,15 @@ body {
   flex-direction: column;
   align-items: self-start;
   margin: 0 7px;
+  position: sticky;
+  right: 0;
 }
 .person-detail-info {
   display: flex;
   flex-direction: column;
   width: 350px;
-  background-color: var(--text-light);
+  background-color: var(--white);
+  color: var(--grey);
   padding: 20px;
 }
 .person-detail-info ul {
@@ -183,6 +206,10 @@ body {
 
 .theme_selector i {
   color: var(--text-light);
+}
+.theme_selector i:hover {
+  transform: scale(1.1);
+  transition: 0.5s;
 }
 
 @keyframes spinLeft {
