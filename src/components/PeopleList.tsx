@@ -3,12 +3,13 @@ import { PeopleListProps, Person } from '../interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPersonToList, removePersonFromList } from '../stores/peopleSlice';
 import { RootState } from '../stores/reducers';
+import { ChangeEvent } from 'react';
 
 function PeopleList(props: PeopleListProps) {
   const dispatch = useDispatch();
   const { personList } = useSelector((state: RootState) => state.people);
 
-  function checkboxHandler(e: Event, person: Person) {
+  function checkboxHandler(e: ChangeEvent<HTMLInputElement>, person: Person) {
     e.stopPropagation();
     const checkbox = e.target as HTMLInputElement;
     checkbox?.checked
@@ -51,7 +52,7 @@ function PeopleList(props: PeopleListProps) {
                 checkboxHandler(e, person);
               }}
               {...(personList.some((item: Person) => item.name === person.name)
-                ? { checked: 'true' }
+                ? { checked: true }
                 : {})}
             />
             Add to list
