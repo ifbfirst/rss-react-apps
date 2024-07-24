@@ -2,28 +2,25 @@ import { Link } from 'react-router-dom';
 import { PeopleListProps, Person } from '../interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPersonToList, removePersonFromList } from '../stores/peopleSlice';
-import { RootState } from '@reduxjs/toolkit/query';
+import { RootState } from '../stores/reducers';
 
 function PeopleList(props: PeopleListProps) {
   const dispatch = useDispatch();
   const { personList } = useSelector((state: RootState) => state.people);
-  if (!props.people?.length) {
-    return <div className="people-list">There is no result... Try again.</div>;
-  }
 
   function checkboxHandler(e: Event, person: Person) {
     e.stopPropagation();
     const checkbox = e.target as HTMLInputElement;
     if (checkbox?.checked) {
       dispatch(addPersonToList(person));
-      console.log(personList);
     }
     if (!checkbox?.checked) {
       dispatch(removePersonFromList(person));
-      console.log(personList);
     }
   }
-
+  if (!props.people?.length) {
+    return <div className="people-list">There is no result... Try again.</div>;
+  }
   return (
     <div className="people-list">
       {props.people?.map((person: Person) => (

@@ -75,6 +75,7 @@ body {
   padding: 10px;
   font-size: 1em;
   color: var(--text-light);
+  text-decoration: none;
 }
 
 .search__button:hover,

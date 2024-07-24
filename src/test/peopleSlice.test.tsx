@@ -5,11 +5,9 @@ import { Person } from '../interfaces';
 const { actions, reducer } = peopleSlice;
 
 const initialState = {
-  people: [] as Person[],
-  isFetching: false,
   searchText: '',
   page: 1,
-  resultCount: 0,
+  personList: [] as Person[],
 };
 
 describe('peopleSlice', () => {
