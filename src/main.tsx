@@ -9,9 +9,12 @@ import store from './stores';
 
 const router = createBrowserRouter([
   {
+    path: '*',
+    errorElement: <ErrorPage />,
+  },
+  {
     path: '/',
     element: <MainPage />,
-    errorElement: <ErrorPage />,
     children: [
       {
         path: 'details/:detailsId',

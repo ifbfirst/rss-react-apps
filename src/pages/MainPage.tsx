@@ -11,10 +11,13 @@ import { setPage } from '../stores/peopleSlice';
 import { RootState, useFetchPeopleQuery } from '../stores/reducers';
 import { ThemeContext, themes } from '../components/theme/ThemeContext';
 import ThemeProvider from '../components/theme/ThemeProvider';
+import FlyoutBox from '../components/FlyoutBox';
 
 export default function MainPage() {
   const dispatch = useDispatch();
-  const { searchText, page } = useSelector((state: RootState) => state.people);
+  const { searchText, page, personList } = useSelector(
+    (state: RootState) => state.people
+  );
   const { data, isFetching } = useFetchPeopleQuery({ searchText, page });
   const location = useLocation();
   const navigate = useNavigate();
@@ -87,6 +90,8 @@ export default function MainPage() {
                   nav={{ current: page, total: pageCount }}
                 />
               )}
+
+              {!isFetching && personList.length !== 0 && <FlyoutBox />}
             </>
           </ErrorBoundary>
         </main>

@@ -29,14 +29,23 @@ export const peopleSlice = createSlice({
     addPersonToList(state, action: PayloadAction<Person>) {
       state.personList.push(action.payload);
     },
-    removePersonFromList(state, action: PayloadAction<string>) {
+    removePersonFromList(state, action: PayloadAction<Person>) {
       state.personList = state.personList.filter(
-        (person) => person.name !== action.payload
+        (person) => person.name !== action.payload.name
       );
+    },
+    clearPersonList(state) {
+      state.personList.length = 0;
     },
   },
 });
 
-export const { setSearchText, setPage } = peopleSlice.actions;
+export const {
+  setSearchText,
+  setPage,
+  addPersonToList,
+  removePersonFromList,
+  clearPersonList,
+} = peopleSlice.actions;
 
 export const peopleReducer = peopleSlice.reducer;

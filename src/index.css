@@ -60,24 +60,27 @@ body {
   height: 15px;
 }
 .person label {
-  margin-top: 30px;
+  padding-top: 20px;
   font-size: 0.7em;
   cursor: pointer;
 }
 
-.search__button {
+.search__button,
+.unselect-btn,
+.download-btn {
   cursor: pointer;
   background-color: var(--main-light);
   border: 1px solid var(--text-light);
-  height: 40px;
-  width: 100px;
+  max-width: 200px;
+  padding: 10px;
   font-size: 1em;
   color: var(--text-light);
 }
 
 .search__button:hover,
-.error__button:hover {
-  border: 2px solid var(--text-light);
+.unselect-btn:hover,
+.download-btn:hover {
+  filter: brightness(90%);
   transition: 0.5s;
 }
 .people-list {
@@ -210,6 +213,19 @@ body {
 .theme_selector i:hover {
   transform: scale(1.1);
   transition: 0.5s;
+}
+.flyout-box {
+  padding: 20px;
+  background-color: var(--white);
+  color: var(--grey);
+  border: 1px solid var(--grey);
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
 }
 
 @keyframes spinLeft {

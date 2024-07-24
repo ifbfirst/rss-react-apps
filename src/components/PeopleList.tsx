@@ -1,9 +1,27 @@
 import { Link } from 'react-router-dom';
 import { PeopleListProps, Person } from '../interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPersonToList, removePersonFromList } from '../stores/peopleSlice';
+import { RootState } from '@reduxjs/toolkit/query';
 
 function PeopleList(props: PeopleListProps) {
+  const dispatch = useDispatch();
+  const { personList } = useSelector((state: RootState) => state.people);
   if (!props.people?.length) {
     return <div className="people-list">There is no result... Try again.</div>;
+  }
+
+  function checkboxHandler(e: Event, person: Person) {
+    e.stopPropagation();
+    const checkbox = e.target as HTMLInputElement;
+    if (checkbox?.checked) {
+      dispatch(addPersonToList(person));
+      console.log(personList);
+    }
+    if (!checkbox?.checked) {
+      dispatch(removePersonFromList(person));
+      console.log(personList);
+    }
   }
 
   return (
@@ -16,11 +34,19 @@ function PeopleList(props: PeopleListProps) {
             <div className="person__height">Height: {person.height}</div>
             <div className="person__mass">Mass: {person.mass}</div>
             <div className="person__mass">Gender: {person.gender}</div>
-            <label>
+            <label onClick={(e) => e.stopPropagation()}>
               <input
                 type="checkbox"
                 className="checkbox__input"
                 id={person.name}
+                onChange={(e) => {
+                  checkboxHandler(e, person);
+                }}
+                {...(personList.some(
+                  (item: Person) => item.name === person.name
+                )
+                  ? { checked: 'true' }
+                  : {})}
               />
               Add to list
             </label>
