@@ -7,7 +7,12 @@ const rootReducer = combineReducers({
   [peopleApi.reducerPath]: peopleApi.reducer,
 });
 
-export const { useFetchPeopleQuery, useFetchPersonQuery } = peopleApi;
+export const {
+  useFetchPeopleQuery = peopleApi.endpoints.fetchPeople
+    .useQuery as typeof peopleApi.endpoints.fetchPeople.useQuery,
+  useFetchPersonQuery = peopleApi.endpoints.fetchPerson
+    .useQuery as typeof peopleApi.endpoints.fetchPerson.useQuery,
+} = peopleApi;
 
 export type RootState = ReturnType<typeof rootReducer>;
 

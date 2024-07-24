@@ -9,8 +9,8 @@ import { PAGINATION_PAGE } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../stores/peopleSlice';
 import { RootState, useFetchPeopleQuery } from '../stores/reducers';
-import { ThemeContext, themes } from '../components/theme/ThemeContext';
-import ThemeProvider from '../components/theme/ThemeProvider';
+import { ThemeContext, themes } from '../theme/ThemeContext';
+import ThemeProvider from '../theme/ThemeProvider';
 import FlyoutBox from '../components/FlyoutBox';
 
 export default function MainPage() {

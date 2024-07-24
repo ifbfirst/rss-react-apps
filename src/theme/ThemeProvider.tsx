@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ThemeContext, themes } from './ThemeContext';
-import { ThemeProviderProps } from '../../interfaces';
+import { ThemeProviderProps } from '../interfaces';
 
 const getTheme = () => {
   const theme = `${localStorage.getItem('theme')}`;

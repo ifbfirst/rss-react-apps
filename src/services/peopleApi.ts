@@ -23,4 +23,7 @@ export const peopleApi = createApi({
   }),
 });
 
-export const { useFetchPeopleQuery, useFetchPersonQuery } = peopleApi;
+export const useFetchPeopleQuery = peopleApi.endpoints.fetchPeople
+  .useQuery as typeof peopleApi.endpoints.fetchPeople.useQuery;
+export const useFetchPersonQuery = peopleApi.endpoints.fetchPerson
+  .useQuery as typeof peopleApi.endpoints.fetchPerson.useQuery;

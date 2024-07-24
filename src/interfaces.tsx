@@ -33,3 +33,8 @@ export interface ErrorBoundaryState {
 export interface ThemeProviderProps {
   children: ReactNode;
 }
+
+export interface ThemeContextType {
+  theme: string;
+  setTheme: (theme: string) => void;
+}
