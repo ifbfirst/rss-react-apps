@@ -49,11 +49,12 @@ export default function MainPage() {
       <div className="app">
         <header className="header">
           <p className="theme_selector">
-            Change theme{' '}
+            Change theme
             <ThemeContext.Consumer>
               {({ theme, setTheme }) => (
                 <i
                   className="fa-solid fa-sun light"
+                  data-testid="theme-switch"
                   onClick={() => {
                     if (theme === themes.light) setTheme(themes.dark);
                     if (theme === themes.dark) setTheme(themes.light);

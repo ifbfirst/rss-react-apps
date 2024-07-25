@@ -3,66 +3,83 @@ import { describe, it, expect, vi } from 'vitest';
 import Pagination from '../components/Pagination';
 
 describe('Pagination Component', () => {
-  const onNextPageClick = vi.fn();
-  const onPrevPageClick = vi.fn();
+  it('should render correctly with navigation info', () => {
+    const mockOnNextPageClick = vi.fn();
+    const mockOnPrevPageClick = vi.fn();
 
-  it('renders correctly with navigation', () => {
     render(
       <Pagination
-        nav={{ current: 2, total: 5 }}
+        onNextPageClick={mockOnNextPageClick}
+        onPrevPageClick={mockOnPrevPageClick}
         disable={{ left: false, right: false }}
-        onNextPageClick={onNextPageClick}
-        onPrevPageClick={onPrevPageClick}
-      />
-    );
-
-    expect(screen.getByText('2 / 5')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /</ })).toBeEnabled();
-    expect(screen.getByRole('button', { name: />/ })).toBeEnabled();
-  });
-
-  it('handles next and previous button clicks', () => {
-    render(
-      <Pagination
-        nav={{ current: 2, total: 5 }}
-        disable={{ left: false, right: false }}
-        onNextPageClick={onNextPageClick}
-        onPrevPageClick={onPrevPageClick}
-      />
-    );
-
-    fireEvent.click(screen.getByRole('button', { name: />/ }));
-    expect(onNextPageClick).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(screen.getByRole('button', { name: /</ }));
-    expect(onPrevPageClick).toHaveBeenCalledTimes(1);
-  });
-
-  it('disables buttons correctly', () => {
-    render(
-      <Pagination
         nav={{ current: 1, total: 5 }}
-        disable={{ left: true, right: false }}
-        onNextPageClick={onNextPageClick}
-        onPrevPageClick={onPrevPageClick}
       />
     );
 
-    expect(screen.getByRole('button', { name: /</ })).toBeDisabled();
-    expect(screen.getByRole('button', { name: />/ })).toBeEnabled();
+    expect(screen.getByText('1 / 5')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '<' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '>' })).toBeInTheDocument();
   });
 
-  it('disables next button when on last page', () => {
+  it('should call onNextPageClick when Next button is clicked', () => {
+    const mockOnNextPageClick = vi.fn();
+    const mockOnPrevPageClick = vi.fn();
+
     render(
       <Pagination
-        nav={{ current: 5, total: 5 }}
-        disable={{ left: false, right: true }}
-        onNextPageClick={onNextPageClick}
-        onPrevPageClick={onPrevPageClick}
+        onNextPageClick={mockOnNextPageClick}
+        onPrevPageClick={mockOnPrevPageClick}
+        disable={{ left: false, right: false }}
+        nav={{ current: 1, total: 5 }}
       />
     );
 
-    expect(screen.getByRole('button', { name: /</ })).toBeEnabled();
-    expect(screen.getByRole('button', { name: />/ })).toBeDisabled();
+    fireEvent.click(screen.getByRole('button', { name: '>' }));
+    expect(mockOnNextPageClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call onPrevPageClick when Previous button is clicked', () => {
+    const mockOnNextPageClick = vi.fn();
+    const mockOnPrevPageClick = vi.fn();
+
+    render(
+      <Pagination
+        onNextPageClick={mockOnNextPageClick}
+        onPrevPageClick={mockOnPrevPageClick}
+        disable={{ left: false, right: false }}
+        nav={{ current: 2, total: 5 }}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: '<' }));
+    expect(mockOnPrevPageClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should disable Previous button when disabled', () => {
+    render(
+      <Pagination
+        onNextPageClick={() => {}}
+        onPrevPageClick={() => {}}
+        disable={{ left: true, right: false }}
+        nav={{ current: 1, total: 5 }}
+      />
+    );
+
+    const prevButton = screen.getByRole('button', { name: '<' });
+    expect(prevButton).toBeDisabled();
+  });
+
+  it('should disable Next button when disabled', () => {
+    render(
+      <Pagination
+        onNextPageClick={() => {}}
+        onPrevPageClick={() => {}}
+        disable={{ left: false, right: true }}
+        nav={{ current: 1, total: 5 }}
+      />
+    );
+
+    const nextButton = screen.getByRole('button', { name: '>' });
+    expect(nextButton).toBeDisabled();
   });
 });

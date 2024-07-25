@@ -105,10 +105,7 @@ describe('DetailsPage', () => {
     });
 
     setup('1');
-
-    // Simulate a click outside of the details element
     fireEvent.click(document.body);
-
-    expect(global.window.location.pathname).toBe('/'); // This may need adjustment based on your actual router setup
+    expect(global.window.location.pathname).toBe('/');
   });
 });
