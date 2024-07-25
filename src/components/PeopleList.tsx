@@ -9,7 +9,6 @@ function PeopleList(props: PeopleListProps) {
   const dispatch = useDispatch();
   const { personList } = useSelector((state: RootState) => state.people);
 
-  // Проверяем, что personList определён и является массивом
   const isPersonInList = (name: string) =>
     Array.isArray(personList) &&
     personList.some((item: Person) => item.name === name);
@@ -56,7 +55,7 @@ function PeopleList(props: PeopleListProps) {
               className="checkbox__input"
               id={person.name}
               onChange={(e) => checkboxHandler(e, person)}
-              checked={isPersonInList(person.name)} // Используем функцию, чтобы определить checked
+              checked={isPersonInList(person.name)}
             />
             Add to list
           </label>

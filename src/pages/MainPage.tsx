@@ -71,7 +71,7 @@ export default function MainPage() {
             <>
               <div className="people-wrapper">
                 {isFetching ? (
-                  <div className="preloader"></div>
+                  <div className="preloader" data-testid="loader"></div>
                 ) : (
                   <PeopleList people={data?.results} />
                 )}

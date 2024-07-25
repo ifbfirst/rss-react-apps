@@ -28,7 +28,7 @@ export default function DetailsPage() {
   }, [navigate]);
 
   if (isFetching) {
-    return <div className="preloader"></div>;
+    return <div className="preloader" data-testid="loader"></div>;
   }
 
   if (!data) {
@@ -40,7 +40,11 @@ export default function DetailsPage() {
   };
 
   return (
-    <div className="person-detail-info" ref={detailsRef}>
+    <div
+      className="person-detail-info"
+      ref={detailsRef}
+      data-testid="close-span"
+    >
       <span onClick={handleClose}>
         <i className="fa-solid fa-xmark"></i>
       </span>
