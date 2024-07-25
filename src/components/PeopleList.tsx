@@ -1,13 +1,18 @@
 import { Link } from 'react-router-dom';
 import { PeopleListProps, Person } from '../interfaces';
-import { useDispatch, useSelector } from 'react-redux';
 import { addPersonToList, removePersonFromList } from '../stores/peopleSlice';
-import { RootState } from '../stores/reducers';
 import { ChangeEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../stores/reducers';
 
 function PeopleList(props: PeopleListProps) {
   const dispatch = useDispatch();
   const { personList } = useSelector((state: RootState) => state.people);
+
+  // Проверяем, что personList определён и является массивом
+  const isPersonInList = (name: string) =>
+    Array.isArray(personList) &&
+    personList.some((item: Person) => item.name === name);
 
   function checkboxHandler(e: ChangeEvent<HTMLInputElement>, person: Person) {
     e.stopPropagation();
@@ -16,17 +21,19 @@ function PeopleList(props: PeopleListProps) {
       ? dispatch(addPersonToList(person))
       : dispatch(removePersonFromList(person));
   }
+
   if (!props.people?.length) {
-    return <div className="people-list">There is no result... Try again.</div>;
+    return <div className="people-list">There is no result...</div>;
   }
+
   return (
     <div className="people-list">
-      {props.people?.map((person: Person) => (
+      {props.people.map((person: Person) => (
         <Link
           to={`details/${person.name}`}
           key={person.name}
           className="person-card"
-          data-testid="person-card "
+          data-testid="person-card"
         >
           <i className="fa-solid fa-user"></i>
           <div>
@@ -39,7 +46,7 @@ function PeopleList(props: PeopleListProps) {
             <div className="person__mass">
               mass: <span>{person.mass}</span>
             </div>
-            <div className="person__mass">
+            <div className="person__gender">
               gender: <span>{person.gender}</span>
             </div>
           </div>
@@ -48,12 +55,8 @@ function PeopleList(props: PeopleListProps) {
               type="checkbox"
               className="checkbox__input"
               id={person.name}
-              onChange={(e) => {
-                checkboxHandler(e, person);
-              }}
-              {...(personList.some((item: Person) => item.name === person.name)
-                ? { checked: true }
-                : {})}
+              onChange={(e) => checkboxHandler(e, person)}
+              checked={isPersonInList(person.name)} // Используем функцию, чтобы определить checked
             />
             Add to list
           </label>

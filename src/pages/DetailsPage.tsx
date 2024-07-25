@@ -44,7 +44,9 @@ export default function DetailsPage() {
       <span onClick={handleClose}>
         <i className="fa-solid fa-xmark"></i>
       </span>
+
       <h2>{data.name}</h2>
+      <h4>Details</h4>
       <ul>
         <li>Name: {data.name}</li>
         <li>Height: {data.height}</li>

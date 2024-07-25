@@ -11,11 +11,11 @@ export interface Person {
   name: string;
   mass: string;
   height: string;
-  eye_color: string;
-  hair_color: string;
-  skin_color: string;
+  eye_color?: string;
+  hair_color?: string;
+  skin_color?: string;
   gender: string;
-  birth_year: string;
+  birth_year?: string;
 }
 
 export interface PeopleListProps {

@@ -10,7 +10,7 @@ import store from './stores';
 const router = createBrowserRouter([
   {
     path: '*',
-    errorElement: <ErrorPage />,
+    element: <ErrorPage />,
   },
   {
     path: '/',
