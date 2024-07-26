@@ -7,16 +7,16 @@
 
 :root[data-theme='dark'] {
   --main-dark: #0b0b28;
-  --main-light: #101041;
-  --text-light: #ffffff;
+  --main-light: rgb(21, 21, 59);
+  --text: #ffffff;
   --white: #ffffff;
   --grey: #363636;
 }
 
 :root[data-theme='light'] {
-  --main-dark: #a0dbfd;
-  --main-light: #cee5f7;
-  --text-light: #363636;
+  --main-dark: rgb(223, 186, 253);
+  --main-light: rgb(241, 225, 255);
+  --text: #363636;
   --white: #ffffff;
   --grey: #363636;
 }
@@ -24,21 +24,20 @@
 body {
   width: 100%;
   margin: 0 auto;
-
   font-size: 1.5em;
-  background-color: var(--main-light);
-  color: var(--text-light);
+  background-color: var(--main-dark);
+  color: var(--text);
   scroll-behavior: smooth;
 }
 
 .header {
-  background-color: var(--main-dark);
-  color: var(--text-light);
+  color: var(--text);
   padding: 30px;
   display: flex;
   gap: 30px;
   flex-direction: column;
   align-items: center;
+  background: url('public/bg.png');
 }
 .header h1 {
   text-align: center;
@@ -70,11 +69,11 @@ body {
 .download-btn {
   cursor: pointer;
   background-color: var(--main-light);
-  border: 1px solid var(--text-light);
+  border: 1px solid var(--text);
   max-width: 200px;
   padding: 10px;
   font-size: 1em;
-  color: var(--text-light);
+  color: var(--text);
   text-decoration: none;
 }
 
@@ -95,13 +94,13 @@ body {
 .main {
   max-width: 1600px;
   margin: 0 auto;
-  background-color: var(--main-light);
   min-height: 100vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  background: url('public/bg.png');
 }
 .people-wrapper {
   display: flex;
@@ -111,12 +110,12 @@ body {
 .person-card {
   width: 15%;
   min-width: 250px;
-  border: 1px solid var(--text-light);
-  background-color: var(--main-dark);
+  border: 1px solid var(--text);
+  background-color: var(--main-light);
   padding: 20px;
   cursor: pointer;
   text-decoration: none;
-  color: var(--text-light);
+  color: var(--text);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -132,7 +131,7 @@ body {
 }
 
 .person-card i {
-  color: var(--text-light);
+  color: var(--text);
   width: 30px;
   height: 30px;
   align-self: center;
@@ -172,7 +171,7 @@ body {
   margin: 50px auto;
   width: 8vmax;
   height: 8vmax;
-  border-right: 4px solid var(--text-light);
+  border-right: 4px solid var(--text);
   border-radius: 100%;
   animation: spinRight 800ms linear infinite;
 }
@@ -186,7 +185,7 @@ body {
   position: absolute;
   top: calc(50% - 3vmax);
   left: calc(50% - 3vmax);
-  border-left: 3px solid var(--text-light);
+  border-left: 3px solid var(--text);
   border-radius: 100%;
   animation: spinLeft 800ms linear infinite;
 }
@@ -197,7 +196,7 @@ body {
   top: calc(50% - 2vmax);
   left: calc(50% - 2vmax);
   border: 0;
-  border-right: 2px solid var(--text-light);
+  border-right: 2px solid var(--text);
   animation: none;
 }
 .theme_selector {
@@ -208,7 +207,7 @@ body {
 }
 
 .theme_selector i {
-  color: var(--text-light);
+  color: var(--text);
 }
 .theme_selector i:hover {
   transform: scale(1.1);
@@ -251,8 +250,8 @@ body {
   padding: 5px;
   margin: 5px;
   cursor: pointer;
-  color: var(--text-light);
-  background-color: var(--main-light);
+  color: var(--text);
+  background-color: var(--main-dark);
   border: none;
   font-family: 'Courier New', Courier, monospace;
 }
@@ -268,7 +267,7 @@ body {
 
 .error-page {
   background-color: var(--main-light);
-  color: var(--text-light);
+  color: var(--text);
   height: 100vh;
   display: flex;
   justify-content: center;

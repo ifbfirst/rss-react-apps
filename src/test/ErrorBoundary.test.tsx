@@ -18,6 +18,8 @@ describe('ErrorBoundary', () => {
   });
 
   it('catches errors and renders fallback UI', () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
     render(
       <ErrorBoundary>
         <ProblematicComponent />
@@ -27,6 +29,8 @@ describe('ErrorBoundary', () => {
     expect(
       screen.getByText('OOPS...Seems like an error occured!')
     ).toBeInTheDocument();
+
+    errorSpy.mockRestore();
   });
 
   it('logs error information', () => {

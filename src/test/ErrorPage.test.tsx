@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { useRouteError } from 'react-router-dom';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi, afterEach } from 'vitest';
 import ErrorPage from '../pages/ErrorPage';
 
 vi.mock('react-router-dom', async (importOriginal) => {
@@ -13,10 +13,16 @@ vi.mock('react-router-dom', async (importOriginal) => {
 });
 
 describe('ErrorPage Component', () => {
-  it('renders the error message', () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+  it('renders the error message and the specific error when available', () => {
     const testError = new Error('Test error');
+    (useRouteError as vi.Mock).mockReturnValue(testError);
 
-    (useRouteError as jest.Mock).mockReturnValue(testError);
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
 
     render(
       <MemoryRouter>
@@ -30,6 +36,11 @@ describe('ErrorPage Component', () => {
     expect(
       screen.getByText(/Sorry, an unexpected error has occurred/i)
     ).toBeInTheDocument();
+    expect(screen.getByText(/Error: Test error/i)).toBeInTheDocument();
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(testError);
+
+    consoleErrorSpy.mockRestore();
   });
 
   it('logs the error to the console', () => {
@@ -37,7 +48,7 @@ describe('ErrorPage Component', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => {});
     const testError = new Error('Test error');
-    (useRouteError as jest.Mock).mockReturnValue(testError);
+    (useRouteError as vi.Mock).mockReturnValue(testError);
 
     render(
       <MemoryRouter>

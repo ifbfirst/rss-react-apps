@@ -7,6 +7,7 @@ import MainPage from '../pages/MainPage';
 import DetailsPage from '../pages/DetailsPage';
 import ErrorPage from '../pages/ErrorPage';
 import store from '../stores';
+import { act } from 'react';
 
 describe('App Routing', () => {
   const router = createMemoryRouter([
@@ -41,8 +42,7 @@ describe('App Routing', () => {
         <RouterProvider router={router} />
       </Provider>
     );
-
-    await waitFor(() => {
+    await act(async () => {
       router.navigate('/details/R2-D2');
     });
 
@@ -57,9 +57,9 @@ describe('App Routing', () => {
         <RouterProvider router={router} />
       </Provider>
     );
-
-    router.navigate('/unknown-path');
-
+    await act(async () => {
+      router.navigate('/unknown-path');
+    });
     await waitFor(() => {
       expect(screen.getByText(/Oops!/i)).toBeInTheDocument();
     });
