@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getItemFromLocalStorage, setItemToLocalStorage } from '../utils';
-import { setSearchText } from '../stores/peopleSlice';
+import { initializeSearchText, setSearchText } from '../stores/peopleSlice';
 import { useDispatch } from 'react-redux';
-import queryString from 'query-string';
-import { useNavigate } from 'react-router-dom';
 
 const Search = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [displayText, setDisplayText] = useState<string>(
-    getItemFromLocalStorage('searchText' || '')
-  );
+  // const navigate = useNavigate();
+
+  const [displayText, setDisplayText] = useState<string>('');
+
+  useEffect(() => {
+    const savedSearchText = localStorage.getItem('searchText');
+    if (savedSearchText) {
+      dispatch(initializeSearchText(JSON.parse(savedSearchText).value));
+    }
+  }, [dispatch]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setDisplayText(event.target.value);
@@ -23,11 +27,11 @@ const Search = () => {
     setItemToLocalStorage('searchText', displayText);
   }
 
-  function updateURLParams(params: { searchText?: string; page?: number }) {
-    navigate('/');
-    const newParams = { ...queryString.parse(location.search), ...params };
-    navigate({ search: queryString.stringify(newParams) });
-  }
+  // function updateURLParams(params: { searchText?: string; page?: number }) {
+  //   navigate('/');
+  //   const newParams = { ...queryString.parse(location.search), ...params };
+  //   navigate({ search: queryString.stringify(newParams) });
+  // }
 
   return (
     <form className="search" onSubmit={handleSearch}>

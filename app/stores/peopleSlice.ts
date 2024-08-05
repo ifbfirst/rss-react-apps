@@ -10,7 +10,7 @@ export interface PeopleState {
 }
 
 const initialState: PeopleState = {
-  searchText: getItemFromLocalStorage('searchText'),
+  searchText: '',
   page: 1,
   personList: [],
 };
@@ -37,6 +37,9 @@ export const peopleSlice = createSlice({
     clearPersonList(state) {
       state.personList.length = 0;
     },
+    initializeSearchText(state, action: PayloadAction<string>) {
+      state.searchText = action.payload;
+    },
   },
 });
 
@@ -46,6 +49,7 @@ export const {
   addPersonToList,
   removePersonFromList,
   clearPersonList,
+  initializeSearchText,
 } = peopleSlice.actions;
 
 export const peopleReducer = peopleSlice.reducer;

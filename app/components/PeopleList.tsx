@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
-import { PeopleListProps, Person } from '../interfaces';
-import { addPersonToList, removePersonFromList } from '../stores/peopleSlice';
-import { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PeopleListProps, Person } from '../interfaces';
 import { RootState } from '../stores/reducers';
+import { ChangeEvent } from 'react';
+import { addPersonToList, removePersonFromList } from '../stores/peopleSlice';
+import Link from 'next/link';
 
 function PeopleList(props: PeopleListProps) {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ function PeopleList(props: PeopleListProps) {
     <div className="people-list">
       {props.people.map((person: Person) => (
         <Link
-          to={`details/${person.name}`}
+          href={`/details/${person.name}`}
           key={person.name}
           className="person-card"
           data-testid="person-card"
