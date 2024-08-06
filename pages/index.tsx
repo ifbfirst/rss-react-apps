@@ -9,19 +9,27 @@ import { RootState, useFetchPeopleQuery } from '@/stores/reducers';
 import { ThemeContext, themes } from '@/theme/ThemeContext';
 import { updateURLParams } from '@/utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
-import DetailsPage from './[detailsId]';
+import { useEffect, useState } from 'react';
+import DetailsPage from './details/[detailsId]';
 import { Person } from '@/interfaces';
+import { useRouter } from 'next/router';
 
 const MainPage = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { searchText, page, personList } = useSelector(
     (state: RootState) => state.people
   );
   const { data, isFetching } = useFetchPeopleQuery({ searchText, page });
   const pageCount = data?.count ? Math.ceil(data.count / PAGINATION_PAGE) : 0;
-
-  const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
+  const [selectedPerson, setSelectedPerson] = useState('');
+  const { detailsId } = router.query;
+  useEffect(() => {
+    if (detailsId && data?.results) {
+      const person = data.results.find((p) => p.name === detailsId);
+      setSelectedPerson(person?.name || '');
+    }
+  }, [detailsId, data]);
 
   function handleNextPageClick() {
     if (pageCount && page < pageCount) {
@@ -40,11 +48,12 @@ const MainPage = () => {
   }
 
   const handlePersonSelect = (person: Person) => {
-    setSelectedPerson(person);
+    setSelectedPerson(person.name);
   };
 
   const handleCloseDetails = () => {
-    setSelectedPerson(null);
+    setSelectedPerson('');
+    router.push('/');
   };
 
   return (
@@ -82,7 +91,7 @@ const MainPage = () => {
                 <div className="person-detail">
                   {selectedPerson && (
                     <DetailsPage
-                      person={selectedPerson}
+                      personName={selectedPerson}
                       onClose={handleCloseDetails}
                     />
                   )}

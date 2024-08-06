@@ -13,9 +13,10 @@ const Search = () => {
   const [displayText, setDisplayText] = useState<string>('');
 
   useEffect(() => {
-    const savedSearchText = localStorage.getItem('searchText');
+    const savedSearchText = getItemFromLocalStorage('searchText');
     if (savedSearchText) {
-      dispatch(initializeSearchText(JSON.parse(savedSearchText).value));
+      dispatch(initializeSearchText(savedSearchText));
+      setDisplayText(savedSearchText);
     }
   }, [dispatch]);
 
