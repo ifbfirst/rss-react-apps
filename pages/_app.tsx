@@ -1,8 +1,8 @@
+import ThemeProvider from '@/theme/ThemeProvider';
 import '/index.css';
 import React from 'react';
 import { Provider } from 'react-redux';
-import store from '@/app/stores';
-import ThemeProvider from '@/app/theme/ThemeProvider';
+import store from '@/stores';
 
 const MyApp = ({ Component, pageProps }) => {
   return (

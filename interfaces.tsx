@@ -19,7 +19,8 @@ export interface Person {
 }
 
 export interface PeopleListProps {
-  people: Person[] | undefined;
+  people: Person[];
+  onPersonSelect: (person: Person) => void;
 }
 
 export interface ErrorBoundaryProps {

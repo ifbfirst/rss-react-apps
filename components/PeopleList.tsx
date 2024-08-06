@@ -3,7 +3,6 @@ import { PeopleListProps, Person } from '../interfaces';
 import { RootState } from '../stores/reducers';
 import { ChangeEvent } from 'react';
 import { addPersonToList, removePersonFromList } from '../stores/peopleSlice';
-import Link from 'next/link';
 
 function PeopleList(props: PeopleListProps) {
   const dispatch = useDispatch();
@@ -21,6 +20,10 @@ function PeopleList(props: PeopleListProps) {
       : dispatch(removePersonFromList(person));
   }
 
+  const handlePersonClick = (person: Person) => {
+    props.onPersonSelect(person);
+  };
+
   if (!props.people?.length) {
     return <div className="people-list">There is no result...</div>;
   }
@@ -28,11 +31,11 @@ function PeopleList(props: PeopleListProps) {
   return (
     <div className="people-list">
       {props.people.map((person: Person) => (
-        <Link
-          href={`/details/${person.name}`}
+        <div
           key={person.name}
           className="person-card"
           data-testid="person-card"
+          onClick={() => handlePersonClick(person)}
         >
           <i className="fa-solid fa-user"></i>
           <div>
@@ -59,7 +62,7 @@ function PeopleList(props: PeopleListProps) {
             />
             Add to list
           </label>
-        </Link>
+        </div>
       ))}
     </div>
   );

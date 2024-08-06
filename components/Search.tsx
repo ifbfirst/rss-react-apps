@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import { getItemFromLocalStorage, setItemToLocalStorage } from '../utils';
+import {
+  getItemFromLocalStorage,
+  setItemToLocalStorage,
+  updateURLParams,
+} from '../utils';
 import { initializeSearchText, setSearchText } from '../stores/peopleSlice';
 import { useDispatch } from 'react-redux';
 
 const Search = () => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
 
   const [displayText, setDisplayText] = useState<string>('');
 
@@ -26,12 +29,6 @@ const Search = () => {
     updateURLParams({ searchText: displayText });
     setItemToLocalStorage('searchText', displayText);
   }
-
-  // function updateURLParams(params: { searchText?: string; page?: number }) {
-  //   navigate('/');
-  //   const newParams = { ...queryString.parse(location.search), ...params };
-  //   navigate({ search: queryString.stringify(newParams) });
-  // }
 
   return (
     <form className="search" onSubmit={handleSearch}>
