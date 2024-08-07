@@ -1,8 +1,5 @@
-import { Person } from '@/interfaces';
-import { useFetchPersonQuery } from '@/services/peopleApi';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-
+import { useFetchPersonQuery } from '../../services/peopleApi';
+import React from 'react';
 interface PersonDetailsProps {
   personName: string;
   onClose: () => void;
@@ -12,16 +9,16 @@ const DetailsPage: React.FC<PersonDetailsProps> = ({ personName, onClose }) => {
   const { data, isFetching } = useFetchPersonQuery(personName);
 
   if (!data) {
-    return <div>No person details available.</div>;
+    return;
   }
   if (isFetching) {
-    return <div className="preloader"></div>;
+    return <div className="preloader" data-testid="loader"></div>;
   }
 
   return (
     <div className="person-detail-info">
-      <span onClick={onClose}>
-        <i className="fa-solid fa-xmark"></i>
+      <span onClick={onClose} aria-label="Close details">
+        <i className="fa-solid fa-xmark" aria-hidden="true"></i>
       </span>
       <h2>{data.name}</h2>
       <h4>Details</h4>

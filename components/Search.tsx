@@ -3,9 +3,10 @@ import {
   getItemFromLocalStorage,
   setItemToLocalStorage,
   updateURLParams,
-} from '../utils';
+} from '../utils/utils';
 import { initializeSearchText, setSearchText } from '../stores/peopleSlice';
 import { useDispatch } from 'react-redux';
+import React from 'react';
 
 const Search = () => {
   const dispatch = useDispatch();

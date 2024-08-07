@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_URL } from '../constants';
-import { PeopleResponse, Person } from '../interfaces';
+import { PeopleResponse, Person } from '../interfaces/interfaces';
 
 export interface FetchPeopleQuery {
   searchText?: string;

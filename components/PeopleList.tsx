@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { PeopleListProps, Person } from '../interfaces';
+import { PeopleListProps, Person } from '../interfaces/interfaces';
 import { RootState } from '../stores/reducers';
 import { ChangeEvent } from 'react';
 import { addPersonToList, removePersonFromList } from '../stores/peopleSlice';
+import React from 'react';
 
 function PeopleList(props: PeopleListProps) {
   const dispatch = useDispatch();

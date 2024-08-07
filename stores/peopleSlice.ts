@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { getItemFromLocalStorage } from '../utils';
-import { Person } from '../interfaces';
+import { getItemFromLocalStorage } from '../utils/utils';
+import { Person } from '../interfaces/interfaces';
 
 export interface PeopleState {
   searchText: string;

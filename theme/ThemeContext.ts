@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeContextType } from '../interfaces';
+import { ThemeContextType } from '../interfaces/interfaces';
 
 export const themes = {
   dark: 'dark',

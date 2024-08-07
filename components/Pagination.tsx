@@ -1,3 +1,5 @@
+import React from 'react';
+
 type PaginationProps = {
   onNextPageClick: () => void;
   onPrevPageClick: () => void;

@@ -1,18 +1,19 @@
-import ErrorBoundary from '@/components/ErrorBoundary';
-import FlyoutBox from '@/components/FlyoutBox';
-import Pagination from '@/components/Pagination';
-import PeopleList from '@/components/PeopleList';
-import Search from '@/components/Search';
-import { PAGINATION_PAGE } from '@/constants';
-import { setPage } from '@/stores/peopleSlice';
-import { RootState, useFetchPeopleQuery } from '@/stores/reducers';
-import { ThemeContext, themes } from '@/theme/ThemeContext';
-import { updateURLParams } from '@/utils';
+import ErrorBoundary from '../components/ErrorBoundary';
+import FlyoutBox from '../components/FlyoutBox';
+import Pagination from '../components/Pagination';
+import PeopleList from '../components/PeopleList';
+import Search from '../components/Search';
+import { PAGINATION_PAGE } from '../constants';
+import { setPage } from '../stores/peopleSlice';
+import { RootState, useFetchPeopleQuery } from '../stores/reducers';
+import { ThemeContext, themes } from '../theme/ThemeContext';
+import { updateURLParams } from '../utils/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import DetailsPage from './details/[detailsId]';
-import { Person } from '@/interfaces';
+import { Person } from '../interfaces/interfaces';
 import { useRouter } from 'next/router';
+import React from 'react';
 
 const MainPage = () => {
   const dispatch = useDispatch();
