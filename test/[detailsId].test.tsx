@@ -1,8 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { useFetchPersonQuery } from '../services/peopleApi';
-import DetailsPage from '../pages/details/[detailsId]';
+
 import React from 'react';
 import '@testing-library/jest-dom';
+import DetailsPage from '../pages/details/[detailsId]';
 vi.mock('../services/peopleApi', () => ({
   useFetchPersonQuery: vi.fn(),
 }));

@@ -7,12 +7,16 @@ export interface PeopleState {
   searchText: string;
   page: number;
   personList: Person[];
+  people: Person[];
+  pageCount: number;
 }
 
 const initialState: PeopleState = {
   searchText: '',
   page: 1,
   personList: [],
+  people: [],
+  pageCount: 0,
 };
 
 export const peopleSlice = createSlice({
@@ -40,6 +44,12 @@ export const peopleSlice = createSlice({
     initializeSearchText(state, action: PayloadAction<string>) {
       state.searchText = action.payload;
     },
+    setPeople(state, action: PayloadAction<Person[]>) {
+      state.people = action.payload;
+    },
+    setPageCount(state, action: PayloadAction<number>) {
+      state.pageCount = action.payload;
+    },
   },
 });
 
@@ -50,6 +60,8 @@ export const {
   removePersonFromList,
   clearPersonList,
   initializeSearchText,
+  setPeople,
+  setPageCount,
 } = peopleSlice.actions;
 
 export const peopleReducer = peopleSlice.reducer;

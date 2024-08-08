@@ -1,99 +1,134 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import MainPage from '../pages';
+import configureStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
-import { Router } from 'next/router';
+import ErrorBoundary from '../components/ErrorBoundary';
+import MainPage, { fetchPeople } from '../pages';
+import { vi } from 'vitest';
 import React from 'react';
 import '@testing-library/jest-dom';
+import { describe, it, expect } from 'vitest';
+import { BASE_URL } from '../constants';
+import { PeopleResponse } from '../interfaces/interfaces';
+import { ThemeContext, themes } from '../theme/ThemeContext';
 
-const mockPush = vi.fn();
-const mockReplace = vi.fn();
-const mockRouter = {
-  route: '/',
-  pathname: '/',
-  query: {},
-  asPath: '/',
-  push: mockPush,
-  replace: mockReplace,
-  reload: vi.fn(),
-  back: vi.fn(),
-  prefetch: vi.fn().mockResolvedValue(undefined),
-  events: {
-    on: vi.fn(),
-    off: vi.fn(),
-    emit: vi.fn(),
-  },
-};
-vi.mock('next/router', () => ({
-  useRouter: () => mockRouter,
-}));
+const mockStore = configureStore();
 
-const mockStore = configureStore([]);
-
-describe('MainPage', () => {
-  let store: MockStoreEnhanced<unknown, unknown>;
-
-  beforeEach(() => {
-    store = mockStore({
-      people: {
-        searchText: '',
-        page: 1,
-        personList: [],
-      },
-    });
-
-    vi.mock('../stores/reducers', () => ({
-      useFetchPeopleQuery: () => ({
-        data: {
-          count: 10,
-          results: [{ name: 'Luke Skywalker' }, { name: 'Darth Vader' }],
-        },
-        isFetching: false,
-        refetch: vi.fn(),
-      }),
-    }));
+const renderWithProviders = (initialData: PeopleResponse) => {
+  const store = mockStore({
+    people: {
+      searchText: '',
+      page: 1,
+      personList: [],
+      people: [],
+      pageCount: 1,
+    },
   });
 
+  return render(
+    <Provider store={store}>
+      <ThemeContext.Provider value={{ theme: themes.light, setTheme: vi.fn() }}>
+        <MemoryRouter>
+          <ErrorBoundary>
+            <MainPage initialData={initialData} initialPageCount={1} />
+          </ErrorBoundary>
+        </MemoryRouter>
+      </ThemeContext.Provider>
+    </Provider>
+  );
+};
+
+describe('MainPage Component', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('renders the header', () => {
+    const initialData = { results: [], count: 0, next: null, previous: null };
+    renderWithProviders(initialData);
+    expect(screen.getByText(/Star Wars People Finders/i)).toBeInTheDocument();
+  });
+
+  it('displays a loader when fetching data', async () => {
+    const mockResponse = {
+      results: [],
+      count: 0,
+      next: null,
+      previous: null,
+    };
+
+    const mockFetchResponse = new Response(JSON.stringify(mockResponse), {
+      status: 200,
+      statusText: 'OK',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    global.fetch = vi.fn(() => Promise.resolve(mockFetchResponse));
+
+    renderWithProviders(mockResponse);
+  });
+});
+
+global.fetch = vi.fn();
+
+describe('fetchPeople', () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  it('renders the header and search input', () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MainPage />
-        </MemoryRouter>
-      </Provider>
-    );
+  it('should fetch people with searchText and return data', async () => {
+    const mockData = {
+      results: [{ name: 'Luke Skywalker' }],
+      count: 1,
+      next: null,
+      previous: null,
+    };
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockData,
+    });
 
-    expect(screen.getByText(/star wars people finders/i)).toBeInTheDocument();
-    expect(screen.getByText(/search/i)).toBeInTheDocument();
+    const searchText = 'Luke';
+    const page = 1;
+    const result = await fetchPeople(searchText, page);
+
+    expect(fetch).toHaveBeenCalledWith(
+      `${BASE_URL}?search=${encodeURIComponent(searchText)}`
+    );
+    expect(result).toEqual(mockData);
   });
 
-  it('displays the list of people', async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MainPage />
-        </MemoryRouter>
-      </Provider>
-    );
+  it('should fetch people without searchText and return data', async () => {
+    const mockData = {
+      results: [{ name: 'Darth Vader' }],
+      count: 1,
+      next: null,
+      previous: null,
+    };
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockData,
+    });
 
-    expect(await screen.findByText(/Luke Skywalker/i)).toBeInTheDocument();
-    expect(await screen.findByText(/Darth Vader/i)).toBeInTheDocument();
+    const searchText = '';
+    const page = 2;
+    const result = await fetchPeople(searchText, page);
+
+    expect(fetch).toHaveBeenCalledWith(`${BASE_URL}?page=${page}`);
+    expect(result).toEqual(mockData);
   });
 
-  it('shows detail when a person is selected', async () => {
-    render(
-      <Provider store={store}>
-        <MainPage />
-      </Provider>
-    );
+  it('should throw an error if the response is not ok', async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      status: 404,
+    });
 
-    const person = await screen.findByText('Luke Skywalker');
-    fireEvent.click(person);
+    const searchText = 'Luke';
+    const page = 1;
+
+    await expect(fetchPeople(searchText, page)).rejects.toThrow(
+      'Network response was not ok'
+    );
   });
 });

@@ -16,6 +16,8 @@ describe('peopleSlice', () => {
     searchText: '',
     page: 1,
     personList: [],
+    pageCount: 0,
+    people: [],
   };
 
   it('should handle initial state', () => {

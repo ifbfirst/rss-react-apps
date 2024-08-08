@@ -25,7 +25,7 @@ function PeopleList(props: PeopleListProps) {
     props.onPersonSelect(person);
   };
 
-  if (!props.people?.length) {
+  if (props.people?.length === 0) {
     return <div className="people-list">There is no result...</div>;
   }
 

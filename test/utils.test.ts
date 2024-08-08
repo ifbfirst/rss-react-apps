@@ -1,5 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { setItemToLocalStorage, getItemFromLocalStorage } from '../utils/utils';
+import {
+  setItemToLocalStorage,
+  getItemFromLocalStorage,
+  updateURLParams,
+} from '../utils/utils';
 
 describe('Local Storage Functions', () => {
   const originalLocalStorage = { ...global.localStorage };
