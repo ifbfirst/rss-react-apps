@@ -1,4 +1,4 @@
-import { BASE_URL } from '@/constants';
+import { BASE_URL } from '../constants';
 
 export async function fetchPeople(searchText: string, page: number) {
   const url = searchText

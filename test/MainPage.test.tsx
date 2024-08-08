@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
 import ErrorBoundary from '../components/ErrorBoundary';
-import MainPage, { fetchPeople } from '../pages';
+
 import { vi } from 'vitest';
 import React from 'react';
 import '@testing-library/jest-dom';
@@ -11,6 +11,8 @@ import { describe, it, expect } from 'vitest';
 import { BASE_URL } from '../constants';
 import { PeopleResponse } from '../interfaces/interfaces';
 import { ThemeContext, themes } from '../theme/ThemeContext';
+import MainPage from '../app/page';
+import { fetchPeople } from '../app/api';
 
 const mockStore = configureStore();
 
