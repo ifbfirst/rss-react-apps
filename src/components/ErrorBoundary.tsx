@@ -20,7 +20,16 @@ class ErrorBoundary extends React.Component<
 
   render() {
     if (this.state.hasError) {
-      return <p>OOPS...Seems like an error occured!</p>;
+      return (
+        <div className="app">
+          <header className="header">
+            <h1>Star Wars People Finders</h1>
+          </header>
+          <main className="main">
+            <p>OOPS...Seems like an error occured!</p>
+          </main>
+        </div>
+      );
     }
 
     return this.props.children;
