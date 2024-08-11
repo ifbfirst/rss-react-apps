@@ -1,3 +1,4 @@
+'use client';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearPersonList } from '../stores/peopleSlice';
 import { RootState } from '../stores/reducers';

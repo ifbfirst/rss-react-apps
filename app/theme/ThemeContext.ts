@@ -1,5 +1,6 @@
+'use client';
+import { ThemeContextType } from '@/interfaces/interfaces';
 import React from 'react';
-import { ThemeContextType } from '../interfaces/interfaces';
 
 export const themes = {
   dark: 'dark',

@@ -28,6 +28,7 @@ body {
   background-color: var(--main-dark);
   color: var(--text);
   scroll-behavior: smooth;
+  background-image: url('../public/bg.png');
 }
 
 .header {
@@ -100,7 +101,6 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  background-image: url('../public/bg.png');
 }
 .people-wrapper {
   display: flex;

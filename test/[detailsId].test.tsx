@@ -3,7 +3,7 @@ import { useFetchPersonQuery } from '../services/peopleApi';
 
 import React from 'react';
 import '@testing-library/jest-dom';
-import DetailsPage from '../app/details/[detailsId]';
+import DetailsPage from '../app/page';
 
 vi.mock('../services/peopleApi', () => ({
   useFetchPersonQuery: vi.fn(),

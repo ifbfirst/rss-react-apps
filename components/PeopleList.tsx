@@ -1,9 +1,11 @@
+'use client';
 import { useDispatch, useSelector } from 'react-redux';
 import { PeopleListProps, Person } from '../interfaces/interfaces';
 import { RootState } from '../stores/reducers';
 import { ChangeEvent } from 'react';
 import { addPersonToList, removePersonFromList } from '../stores/peopleSlice';
 import React from 'react';
+import FlyoutBox from './FlyoutBox';
 
 function PeopleList(props: PeopleListProps) {
   const dispatch = useDispatch();
@@ -65,6 +67,7 @@ function PeopleList(props: PeopleListProps) {
           </label>
         </div>
       ))}
+      {personList.length !== 0 && <FlyoutBox />}
     </div>
   );
 }

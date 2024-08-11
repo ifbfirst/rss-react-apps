@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ThemeContext, themes } from './ThemeContext';
-import { ThemeProviderProps } from '../interfaces/interfaces';
 import React from 'react';
+import { ThemeProviderProps } from '@/interfaces/interfaces';
+
 const getInitialTheme = () => {
   if (typeof window === 'undefined') {
     return themes.light;

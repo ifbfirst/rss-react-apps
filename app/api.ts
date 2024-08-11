@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import { BASE_URL } from '../constants';
 
 export async function fetchPeople(searchText: string, page: number) {
