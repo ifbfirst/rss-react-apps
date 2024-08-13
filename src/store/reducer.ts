@@ -1,31 +1,55 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface ConfigState {
-  amount: string;
-  category: string;
-  difficulty: string;
-  time: string;
-  type: string;
+export interface DataState {
+  name: string;
+  age: string;
+  email: string;
+  password: string;
+  confPassword: string;
+  gender: string;
 }
 
-const initialState: ConfigState = {
-  amount: '10',
-  category: '9',
-  difficulty: 'easy',
-  time: '3',
-  type: 'multiple',
+const initialState: DataState = {
+  name: '',
+  age: '',
+  email: '',
+  password: '',
+  confPassword: '',
+  gender: '',
 };
 
-export const configSlice = createSlice({
-  name: 'name',
+export const dataSlice = createSlice({
+  name: 'data',
   initialState,
   reducers: {
-    setCountQuestions(state, action: PayloadAction<string>) {
-      state.amount = action.payload;
+    setName(state, action: PayloadAction<string>) {
+      state.name = action.payload;
+    },
+    setAge(state, action: PayloadAction<string>) {
+      state.age = action.payload;
+    },
+    setEmail(state, action: PayloadAction<string>) {
+      state.email = action.payload;
+    },
+    setPassword(state, action: PayloadAction<string>) {
+      state.password = action.payload;
+    },
+    setConfPassword(state, action: PayloadAction<string>) {
+      state.confPassword = action.payload;
+    },
+    setGender(state, action: PayloadAction<string>) {
+      state.gender = action.payload;
     },
   },
 });
 
-export const { setCountQuestions } = configSlice.actions;
+export const {
+  setName,
+  setAge,
+  setEmail,
+  setPassword,
+  setConfPassword,
+  setGender,
+} = dataSlice.actions;
 
-export const configReducer = configSlice.reducer;
+export const configReducer = dataSlice.reducer;

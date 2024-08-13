@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { configSlice } from './reducer';
+import { dataSlice } from './reducer';
 
 const rootReducer = combineReducers({
-  questions: configSlice,
+  data: dataSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import './index.css';
 import { useRef } from 'react';
 
 const FirstForm = () => {
@@ -15,8 +14,8 @@ const FirstForm = () => {
   }
 
   return (
-    <div className="form__first">
-      <h1>FirstForm </h1>
+    <div className="form__content">
+      <h2>First Form Uncontrolled</h2>
       <form onSubmit={handleSubmit}>
         <input type="text" ref={inputRef} placeholder="enter your name" />
 
