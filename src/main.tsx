@@ -8,6 +8,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import MainPage from './pages/MainPage';
 import FirstForm from './pages/FirstForm';
 import SecondForm from './pages/SecondForm';
+import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: 'second',
         element: <SecondForm />,
+      },
+      {
+        path: '*',
+        element: <ErrorPage />,
       },
     ],
   },

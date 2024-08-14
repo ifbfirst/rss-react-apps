@@ -1,21 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { DataStore } from '../interfaces';
 
-export interface DataState {
-  name: string;
-  age: string;
-  email: string;
-  password: string;
-  confPassword: string;
-  gender: string;
-}
-
-const initialState: DataState = {
+const initialState: DataStore = {
   name: '',
-  age: '',
+  age: 0,
   email: '',
   password: '',
-  confPassword: '',
   gender: '',
+  country: '',
+  image: '',
 };
 
 export const dataSlice = createSlice({
@@ -25,7 +18,7 @@ export const dataSlice = createSlice({
     setName(state, action: PayloadAction<string>) {
       state.name = action.payload;
     },
-    setAge(state, action: PayloadAction<string>) {
+    setAge(state, action: PayloadAction<number>) {
       state.age = action.payload;
     },
     setEmail(state, action: PayloadAction<string>) {
@@ -34,11 +27,14 @@ export const dataSlice = createSlice({
     setPassword(state, action: PayloadAction<string>) {
       state.password = action.payload;
     },
-    setConfPassword(state, action: PayloadAction<string>) {
-      state.confPassword = action.payload;
-    },
     setGender(state, action: PayloadAction<string>) {
       state.gender = action.payload;
+    },
+    setCountry(state, action: PayloadAction<string>) {
+      state.country = action.payload;
+    },
+    setImage(state, action: PayloadAction<string>) {
+      state.image = action.payload;
     },
   },
 });
@@ -48,8 +44,9 @@ export const {
   setAge,
   setEmail,
   setPassword,
-  setConfPassword,
   setGender,
+  setCountry,
+  setImage,
 } = dataSlice.actions;
 
 export const configReducer = dataSlice.reducer;
