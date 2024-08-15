@@ -1,9 +1,9 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState } from '../store/reducers';
-import { useSelector } from 'react-redux';
 
 const MainPage = () => {
-  const { name, age, email, password, gender, image } = useSelector(
+  const { name, age, email, password, gender, image, country } = useSelector(
     (state: RootState) => state.data
   );
   return (
@@ -38,6 +38,10 @@ const MainPage = () => {
           <div>
             <span>gender:</span>
             {gender}
+          </div>
+          <div>
+            <span>country:</span>
+            {country}
           </div>
         </div>
       ) : (

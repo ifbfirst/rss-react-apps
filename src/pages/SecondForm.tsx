@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   setAge,
@@ -13,7 +13,7 @@ import {
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from '../constants';
+import { countries, schema } from '../constants';
 import { FormData } from '../interfaces';
 
 const SecondForm = () => {
@@ -48,10 +48,8 @@ const SecondForm = () => {
         dispatch(setPassword(data.password));
         dispatch(setGender(data.gender));
         dispatch(setCountry(data.country));
-
         navigate('/');
       };
-
       reader.readAsDataURL(file);
     } else {
       console.error('No valid file selected');
@@ -99,12 +97,14 @@ const SecondForm = () => {
           <option value="male">male</option>
           <option value="female">female</option>
         </select>
-        <label>Country</label>
-        <input
-          {...register('country')}
-          autoComplete="country"
-          className={errors.country ? 'invalid' : ''}
-        />
+        <label htmlFor="country">Country:</label>
+        <input list="countries" {...register('country')} />
+        <datalist id="countries">
+          {countries.map((element: string) => (
+            <option key={element} value={element} />
+          ))}
+        </datalist>
+
         <label className="input-file">
           <input type="file" {...register('image')} />
           <span className="input-file-btn">Upload image</span>

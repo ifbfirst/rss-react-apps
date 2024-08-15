@@ -46,14 +46,27 @@ export const schema = yup
     image: yup
       .mixed()
       .test('fileSize', '*** File size should be less than 2MB', (value) => {
-        const file = value && value[0];
-        return file && file.size <= 2 * 1024 * 1024; // 2MB
+        const files = value as FileList;
+        const file = files && files[0];
+        return file && file.size <= 2 * 1024 * 1024;
       })
       .test('fileType', '*** Only PNG and JPEG files are allowed', (value) => {
-        const file = value && value[0];
+        const files = value as FileList;
+        const file = files && files[0];
         return (
           file && (file.type === 'image/png' || file.type === 'image/jpeg')
         );
       }),
   })
   .required();
+
+export const countries = [
+  'Austria',
+  'Belarus',
+  'Bulgaria',
+  'Germany',
+  'Georgia',
+  'Greece',
+  'Finland',
+  'Scotland',
+];

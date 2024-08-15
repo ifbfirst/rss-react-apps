@@ -7,7 +7,7 @@ export interface FormData {
   gender: string;
   country: string;
   agreement: boolean;
-  image: File[];
+  image: FileList;
 }
 
 export interface DataStore {

@@ -30,6 +30,7 @@ export const dataSlice = createSlice({
     setGender(state, action: PayloadAction<string>) {
       state.gender = action.payload;
     },
+
     setCountry(state, action: PayloadAction<string>) {
       state.country = action.payload;
     },
