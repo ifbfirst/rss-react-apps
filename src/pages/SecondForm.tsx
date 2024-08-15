@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import {
   setAge,
@@ -11,17 +11,19 @@ import {
   setPassword,
 } from '../store/reducer';
 
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { countries, schema } from '../constants';
-import { FormData } from '../interfaces';
+import * as yup from 'yup';
+
+type FormData = yup.InferType<typeof schema>;
 
 const SecondForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
-  } = useForm({
+  } = useForm<FormData>({
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
@@ -31,10 +33,12 @@ const SecondForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onSubmit = (data: FormData) => {
-    const file = data.image[0];
+  const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
+    const fileList = data.image; // This is of type FileList | undefined
 
-    if (file && file instanceof Blob) {
+    // Check if fileList is defined and an instance of FileList
+    if (fileList && fileList instanceof FileList && fileList.length > 0) {
+      const file = fileList[0]; // Now TypeScript knows that fileList has length
       const reader = new FileReader();
 
       reader.onloadend = () => {
