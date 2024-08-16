@@ -1,11 +1,19 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState } from '../store/reducers';
+import { DataItem } from '../interfaces';
+import { useEffect, useState } from 'react';
 
 const MainPage = () => {
-  const { name, age, email, password, gender, image, country } = useSelector(
-    (state: RootState) => state.data
-  );
+  const { arrayData } = useSelector((state: RootState) => state.data);
+  const [showColorClass, setShowColorClass] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowColorClass(false);
+    }, 5000);
+  });
+
   return (
     <div className="main__content">
       <h2>MainPage</h2>
@@ -17,32 +25,43 @@ const MainPage = () => {
           Go to second form
         </Link>
       </div>
-      {name ? (
-        <div className="form__info">
-          <div>
-            <img src={image} alt="image_profile" />
-          </div>
-          <div>
-            <span>name:</span> {name}
-          </div>
-          <div>
-            <span>age:</span> {age}
-          </div>
-          <div>
-            <span>email:</span> {email}
-          </div>
-          <div>
-            <span>password:</span>
-            {password}
-          </div>
-          <div>
-            <span>gender:</span>
-            {gender}
-          </div>
-          <div>
-            <span>country:</span>
-            {country}
-          </div>
+      {arrayData.length ? (
+        <div className="main__items">
+          {arrayData.map((item: DataItem, index) => (
+            <div
+              className={
+                index === arrayData.length - 1 && showColorClass
+                  ? 'main__item main__item_color'
+                  : 'main__item'
+              }
+              key={item.email}
+            >
+              <div>
+                <img src={item.image} alt="image_profile" />
+              </div>
+              <div>
+                <span>name:</span> {item.name}
+              </div>
+              <div>
+                <span>age:</span> {item.age}
+              </div>
+              <div>
+                <span>email:</span> {item.email}
+              </div>
+              <div>
+                <span>password:</span>
+                {item.password}
+              </div>
+              <div>
+                <span>gender:</span>
+                {item.gender}
+              </div>
+              <div>
+                <span>country:</span>
+                {item.country}
+              </div>
+            </div>
+          ))}
         </div>
       ) : (
         <img

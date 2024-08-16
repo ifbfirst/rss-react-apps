@@ -10,7 +10,7 @@ export interface FormData {
   image: FileList;
 }
 
-export interface DataStore {
+export interface DataItem {
   name: string;
   age: number;
   email: string;
@@ -18,4 +18,8 @@ export interface DataStore {
   gender: string;
   country: string;
   image: string;
+}
+
+export interface DataStore {
+  arrayData: DataItem[];
 }

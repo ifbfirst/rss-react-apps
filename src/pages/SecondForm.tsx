@@ -1,15 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import {
-  setAge,
-  setCountry,
-  setEmail,
-  setGender,
-  setImage,
-  setName,
-  setPassword,
-} from '../store/reducer';
+import { setData } from '../store/reducer';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -34,24 +26,26 @@ const SecondForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
-    const fileList = data.image; // This is of type FileList | undefined
+    const fileList = data.image;
 
-    // Check if fileList is defined and an instance of FileList
     if (fileList && fileList instanceof FileList && fileList.length > 0) {
-      const file = fileList[0]; // Now TypeScript knows that fileList has length
+      const file = fileList[0];
       const reader = new FileReader();
 
       reader.onloadend = () => {
         const base64data = reader.result;
-        if (typeof base64data === 'string') {
-          dispatch(setImage(base64data));
-        }
-        dispatch(setName(data.name));
-        dispatch(setAge(data.age));
-        dispatch(setEmail(data.email));
-        dispatch(setPassword(data.password));
-        dispatch(setGender(data.gender));
-        dispatch(setCountry(data.country));
+
+        const dataStore = {
+          name: data.name,
+          age: data.age,
+          email: data.email,
+          password: data.password,
+          gender: data.gender,
+          country: data.country,
+          image: base64data as string,
+        };
+
+        dispatch(setData(dataStore));
         navigate('/');
       };
       reader.readAsDataURL(file);

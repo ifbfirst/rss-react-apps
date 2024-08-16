@@ -1,17 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import {
-  setAge,
-  setCountry,
-  setEmail,
-  setGender,
-  setImage,
-  setName,
-  setPassword,
-} from '../store/reducer';
 import { useDispatch } from 'react-redux';
 import { countries, schema } from '../constants';
 import * as yup from 'yup';
+import { setData } from '../store/reducer';
 
 const FirstForm = () => {
   const navigate = useNavigate();
@@ -94,16 +86,18 @@ const FirstForm = () => {
 
       reader.onloadend = () => {
         const base64data = reader.result;
-        if (typeof base64data === 'string') {
-          dispatch(setImage(base64data));
-        }
-        dispatch(setName(nameRef.current!.value));
-        dispatch(setAge(+ageRef.current!.value));
-        dispatch(setEmail(emailRef.current!.value));
-        dispatch(setPassword(passwordRef.current!.value));
-        dispatch(setGender(genderRef.current!.value));
-        dispatch(setCountry(countryRef.current!.value));
 
+        const dataStore = {
+          name: nameRef.current!.value,
+          age: +ageRef.current!.value,
+          email: emailRef.current!.value,
+          password: passwordRef.current!.value,
+          gender: genderRef.current!.value,
+          country: countryRef.current!.value,
+          image: base64data as string,
+        };
+
+        dispatch(setData(dataStore));
         navigate('/');
       };
       reader.readAsDataURL(file);
