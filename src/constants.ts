@@ -45,6 +45,7 @@ export const schema = yup
 
     image: yup
       .mixed()
+      .required('*** Image is required')
       .test('fileSize', '*** File size should be less than 2MB', (value) => {
         const files = value as FileList;
         const file = files && files[0];

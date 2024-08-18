@@ -7,6 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { countries, schema } from '../constants';
 import * as yup from 'yup';
+import { useState } from 'react';
 
 type FormData = yup.InferType<typeof schema>;
 
@@ -24,6 +25,7 @@ const SecondForm = () => {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isFileLoaded, setFileLoaded] = useState(false);
 
   const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
     const fileList = data.image;
@@ -104,8 +106,16 @@ const SecondForm = () => {
         </datalist>
 
         <label className="input-file">
-          <input type="file" {...register('image')} />
-          <span className="input-file-btn">Upload image</span>
+          <input
+            type="file"
+            {...register('image')}
+            onChange={() =>
+              !isFileLoaded ? setFileLoaded(true) : setFileLoaded(false)
+            }
+          />
+          <span className="input-file-btn">
+            {!isFileLoaded ? 'Upload file' : 'File uploaded'}
+          </span>
           <span className="input-file-text"> max 2mb, .png .jpeg</span>
         </label>
         {errors.image && <p>{errors.image.message}</p>}

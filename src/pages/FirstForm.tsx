@@ -160,7 +160,7 @@ const FirstForm = () => {
             ref={imageRef}
             onChange={checkFormValidity}
           />
-          <span className="input-file-btn">Upload image</span>
+          <span className="input-file-btn">File uploaded</span>
           <span className="input-file-text"> max 2mb, .png .jpeg</span>
         </label>
         {errors.image && <p>{errors.image}</p>}
